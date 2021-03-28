@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+    rel="stylesheet" integrity="sha384-
+    BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="SpiritDirectorTable.css">
+    <title>Spirit Director Table</title>
+</head>
+<body>
+    <div class="row">
+        <div>
+            <h1 class="heading" >Current Customer Information</h1>
+            <p class="infotext">Add a new customer here:</p>
+            <input type="text" id="id" placeholder="ID">
+            <input type="text" id="name" placeholder="Name">
+            <input type="tel" id="tel" placeholder="Phone">
+            <input type="text" id="email" placeholder="Email">
+            <input type="button" value="Add" id="btn_add">
+        </div>
+    
+        <table>    
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody contenteditable="true">
+                <tr>
+                    <td>1</td>
+                    <td>James Watson</td>
+                    <td>1234567890</td>
+                    <td>jameswatson@gmail.com</td>
+                    <td contenteditable="false"><a href="javascript:void(0);" onclick="delTr(this);">Delete</a></td>
+                </tr>
+    
+                <tr>
+                    <td>2</td>
+                    <td>Emilia Harper</td>
+                    <td>4567891230</td>
+                    <td>e.Harper@yahoo.com</td>
+                    <td contenteditable="false"><a href="javascript:void(0);" onclick="delTr(this);">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+    <script>
+        document.getElementById('btn_add').onclick = function () {
+            let id = document.getElementById('id').value;
+            let name = document.getElementById('name').value;
+            let tel = document.getElementById('tel').value;
+            let email = document.getElementById('email').value;
+            let tbody = document.querySelector('tbody');
+
+            tbody.innerHTML += 
+            `<tr>
+                <td>${id}</td>
+                <td>${name}</td>
+                <td>${tel}</td>
+                <td>${email}</td>
+                <td contenteditable="false"><a href="javascript:void(0);" onlick="delTr(this);">Delete</a></td>
+            </tr>
+            `;
+        }
+
+        function delTr(obj) {
+            let tbody = obj.parentNode.parentNode.parentNode;
+            let tr = obj.parentNode.parentNode;
+            tbody.removeChild(tr);
+        }
+    </script>
+</body>
+</html>

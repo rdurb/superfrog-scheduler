@@ -35,3 +35,4 @@ build/
 .idea
 server/.idea
 server/data/**
+node_modules/**

@@ -3,6 +3,7 @@ package tcu.webtech.superfrogscheduler.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class WebRouterController {
@@ -17,6 +18,11 @@ public class WebRouterController {
         return "login";
     }
 
+    @RequestMapping("/profile")
+    public String profile() {
+        return "profile";
+    }
+
     @RequestMapping("/calendar")
     public String calendar() {
         return "calendar";
@@ -27,9 +33,14 @@ public class WebRouterController {
         return "register";
     }
 
-    @RequestMapping("/profile")
-    public String profile() {
-        return "profile";
+    @RequestMapping("/request")
+    public String request() {
+        return "request";
+    }
+
+    @RequestMapping("/spiritdirectortable")
+    public String spiritDirectorTable() {
+        return "SpiritDirectorTable";
     }
 
 }

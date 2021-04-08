@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.web.method.HandlerTypePredicate;
 import tcu.webtech.superfrogscheduler.security.jwt.AuthEntryPoint;
 import tcu.webtech.superfrogscheduler.security.jwt.AuthTokenFilter;
 import tcu.webtech.superfrogscheduler.services.UserDetailsServiceImpl;
@@ -54,22 +55,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
-                    .antMatchers("/api/auth/**").permitAll()
-                    .antMatchers("/", "/h2-console/**", "/register").permitAll()
-                    .antMatchers("/public/**", "/img/**", "/bootstrap/**", "/css/**", "/fonts/**", "/js/**").permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/")
-                    .permitAll()
-                    .and()
-                .logout()
-                    .permitAll();
+//        http.cors().and().csrf().disable()
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//                .authorizeRequests()
+//                    .antMatchers("/api/auth/**").permitAll()
+//                    .antMatchers("/", "/h2-console/**").permitAll()
+//                    .antMatchers("/public/**", "/img/**", "/bootstrap/**", "/css/**", "/fonts/**", "/js/**").permitAll()
+//                    .antMatchers("/index").permitAll()
+//                    .antMatchers("/calendar").permitAll()
+//                    .antMatchers("/login").permitAll()
+//                    .antMatchers("/profile").permitAll()
+//                    .antMatchers("/register").permitAll()
+//                    .antMatchers("/request").permitAll()
+//                    .antMatchers("/SpiritDirectorTable").permitAll()
+//                    .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                    .loginPage("/login")
+//                    .defaultSuccessUrl("/")
+//                    .permitAll()
+//                    .and()
+//                .logout()
+//                    .permitAll();
+
+        http.authorizeRequests().anyRequest().permitAll();
 
         http.headers().frameOptions().sameOrigin();
 

@@ -18,6 +18,11 @@ public class WebRouterController {
         return "login";
     }
 
+    @RequestMapping("/register")
+    public String register() {
+        return "register";
+    }
+
     @RequestMapping("/profile")
     public String profile() {
         return "profile";
@@ -26,11 +31,6 @@ public class WebRouterController {
     @RequestMapping("/calendar")
     public String calendar() {
         return "calendar";
-    }
-
-    @RequestMapping("/register")
-    public String register() {
-        return "register";
     }
 
     @RequestMapping("/request")

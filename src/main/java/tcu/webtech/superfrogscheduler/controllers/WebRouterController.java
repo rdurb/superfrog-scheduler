@@ -19,12 +19,11 @@ public class WebRouterController {
     private UserRepository userRepository;
 
     @RequestMapping("/")
-    public String home() {
+    public String home(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
-        System.out.println(currentUser.toString());
 
+        model.addAttribute("user", currentUser);
         return "index";
     }
 

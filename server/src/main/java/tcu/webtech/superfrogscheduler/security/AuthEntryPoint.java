@@ -1,4 +1,4 @@
-package tcu.webtech.superfrogscheduler.security.jwt;
+package tcu.webtech.superfrogscheduler.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

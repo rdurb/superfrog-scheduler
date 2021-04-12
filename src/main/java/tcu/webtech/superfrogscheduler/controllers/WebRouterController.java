@@ -27,6 +27,21 @@ public class WebRouterController {
         return "index";
     }
 
+    @RequestMapping("/spiritdirectortable")
+    public String spiritdirectortable() {
+        return "spiritdirectortable";
+    }
+
+    @RequestMapping("/dashboard")
+    public String dashboard() {
+        return "dashboard";
+    }
+
+    @RequestMapping("/tcuevent")
+    public String tcuevent() {
+        return "tcuevent";
+    }
+
     @RequestMapping("/login")
     public String login() {
         return "login";

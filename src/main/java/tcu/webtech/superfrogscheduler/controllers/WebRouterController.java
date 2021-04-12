@@ -39,6 +39,11 @@ public class WebRouterController {
 
     @PostMapping("/process_register")
     public String processRegister(User user) {
+        System.out.println("User firstname: " + user.getFirstName());
+        System.out.println("User lastname: " + user.getLastName());
+        System.out.println("User email: " + user.getEmail());
+        System.out.println("User password: " + user.getPassword());
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -46,7 +51,13 @@ public class WebRouterController {
         userRepository.save(user);
 
         // On success, go to login page
-        return "/login";
+        return "/success";
+    }
+
+    @RequestMapping("/success")
+    public String success() {
+        System.out.println(userRepository.findAll());
+        return "/";
     }
 
     @RequestMapping("/profile")

@@ -91,5 +91,10 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        return "[Email: " + this.email + ", FirstName: " + this.firstName + ", lastName: " + this.lastName + "]";
+    }
 }
 

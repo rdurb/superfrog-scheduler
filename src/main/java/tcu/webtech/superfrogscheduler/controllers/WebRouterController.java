@@ -23,8 +23,7 @@ public class WebRouterController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
-        System.out.println("email: " + currentUser.getEmail());
-        System.out.println("password: " + currentUser.getPassword());
+        System.out.println(currentUser.toString());
 
         return "index";
     }

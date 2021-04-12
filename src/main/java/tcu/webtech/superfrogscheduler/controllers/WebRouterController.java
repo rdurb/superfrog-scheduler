@@ -27,19 +27,35 @@ public class WebRouterController {
         return "index";
     }
 
+    @RequestMapping("/logout")
+    public String logout() {
+        return "login";
+    }
+
     @RequestMapping("/spiritdirectortable")
-    public String spiritdirectortable() {
+    public String spiritdirectortable(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
+
+        model.addAttribute("user", currentUser);
         return "spiritdirectortable";
     }
 
     @RequestMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard";
+    public String dashboard(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
+
+        model.addAttribute("user", currentUser);return "dashboard";
     }
 
     @RequestMapping("/tcuevent")
-    public String tcuevent() {
-        return "tcuevent";
+    public String tcuevent(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
+
+        model.addAttribute("user", currentUser);return "tcuevent";
     }
 
     @RequestMapping("/login")
@@ -48,14 +64,16 @@ public class WebRouterController {
     }
 
     @RequestMapping("/calendar")
-    public String calendar() {
-        return "calendar";
+    public String calendar(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
+
+        model.addAttribute("user", currentUser);return "calendar";
     }
 
     @RequestMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new User());
-
         return "register";
     }
 

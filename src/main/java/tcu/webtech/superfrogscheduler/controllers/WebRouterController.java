@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import tcu.webtech.superfrogscheduler.models.ERole;
+import tcu.webtech.superfrogscheduler.models.Role;
 import tcu.webtech.superfrogscheduler.models.User;
 import tcu.webtech.superfrogscheduler.repositories.UserRepository;
 import tcu.webtech.superfrogscheduler.services.CustomUserDetails;
@@ -20,6 +22,7 @@ public class WebRouterController {
     @Autowired
     private UserRepository userRepository;
 
+    private Role r1 = new Role(ERole.ROLE_CUSTOMER);
     @RequestMapping("/")
     public String home(Model model,HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -98,6 +101,7 @@ public class WebRouterController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+//        user.addRole(r1);
         userRepository.save(user);
         return "register_success";
     }

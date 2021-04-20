@@ -18,19 +18,19 @@ public class DBDataInitializer implements CommandLineRunner {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
-//    @Autowired
+    //    @Autowired
 //    private CustomUserDetailsService userService;
     @Override
     public void run(String... args) throws Exception {
 
 //        // We must initialize the roles in the DB for them to be recognized by login/signup
-//        Role r1 = new Role(ERole.ROLE_CUSTOMER);
-//        Role r2 = new Role(ERole.ROLE_SUPERFROG);
-//        Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
-//
-//        roleRepository.save(r1);
-//        roleRepository.save(r2);
-//        roleRepository.save(r3);
+        Role r1 = new Role(ERole.ROLE_CUSTOMER);
+        Role r2 = new Role(ERole.ROLE_SUPERFROG);
+        Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
+
+        roleRepository.save(r1);
+        roleRepository.save(r2);
+        roleRepository.save(r3);
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword;
@@ -40,7 +40,7 @@ public class DBDataInitializer implements CommandLineRunner {
         user1.setPassword("123456");
         user1.setFirstName("John");
         user1.setLastName("Doe");
-//        user1.setRoles(ERole.ROLE_CUSTOMER);
+        user1.addRole(r3);
         encodedPassword = passwordEncoder.encode(user1.getPassword());
         user1.setPassword(encodedPassword);
 
@@ -49,6 +49,7 @@ public class DBDataInitializer implements CommandLineRunner {
         user2.setPassword("654321");
         user2.setFirstName("Eric");
         user2.setLastName("Smith");
+        user2.addRole(r1);
         encodedPassword = passwordEncoder.encode(user2.getPassword());
         user2.setPassword(encodedPassword);
 
@@ -57,6 +58,7 @@ public class DBDataInitializer implements CommandLineRunner {
         user3.setPassword("123");
         user3.setFirstName("Tom");
         user3.setLastName("Petty");
+        user3.addRole(r2);
         encodedPassword = passwordEncoder.encode(user3.getPassword());
         user3.setPassword(encodedPassword);
 
@@ -65,6 +67,7 @@ public class DBDataInitializer implements CommandLineRunner {
         user4.setPassword("321");
         user4.setFirstName("Jack");
         user4.setLastName("Frost");
+        user4.addRole(r3);
         encodedPassword = passwordEncoder.encode(user4.getPassword());
         user4.setPassword(encodedPassword);
 
@@ -75,16 +78,16 @@ public class DBDataInitializer implements CommandLineRunner {
 //        userService.save(u1);
 //        userService.save(u2);
 //        userService.save(u3);
-        Role r1 = new Role(ERole.ROLE_CUSTOMER);
-        Role r2 = new Role(ERole.ROLE_SUPERFROG);
-        Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
-
-        r1.setId(user3.getId());
-        r2.setId(user2.getId());
-        r3.setId(user1.getId());
-
-        roleRepository.save(r1);
-        roleRepository.save(r2);
-        roleRepository.save(r3);
+//        Role r1 = new Role(ERole.ROLE_CUSTOMER);
+//        Role r2 = new Role(ERole.ROLE_SUPERFROG);
+//        Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
+//
+//        r1.setId(user3.getId());
+//        r2.setId(user2.getId());
+//        r3.setId(user1.getId());
+//
+//        roleRepository.save(r1);
+//        roleRepository.save(r2);
+//        roleRepository.save(r3);
     }
 }

@@ -52,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/h2-console/**").permitAll()
                     .antMatchers("/img/**", "/bootstrap/**", "/css/**", "/fonts/**", "/js/**").permitAll()
                     .antMatchers("/register").permitAll()
+                    .antMatchers("/process_register").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -60,7 +61,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/")
                     .permitAll()
                 .and()
-                    .logout().logoutSuccessUrl("/login").permitAll();
+                    .logout().logoutSuccessUrl("/login").permitAll()
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/access_denied"); // 403 error
 
         http.headers().frameOptions().sameOrigin();
 

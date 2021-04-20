@@ -6,6 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import tcu.webtech.superfrogscheduler.models.User;
@@ -19,17 +21,17 @@ public class WebRouterController {
     private UserRepository userRepository;
 
     @RequestMapping("/")
-    public String home(Model model) {
+    public String home(Model model,HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
-
+        request.getSession(true);
         model.addAttribute("user", currentUser);
         return "index";
     }
 
     @RequestMapping("/logout")
     public String logout() {
-        return "login";
+        return "register";
     }
 
     @RequestMapping("/spiritdirectortable")
@@ -87,18 +89,20 @@ public class WebRouterController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-
         userRepository.save(user);
-
-        // On success, go to login page
-        return "/success";
+        return "register_success";
     }
 
-    @RequestMapping("/success")
-    public String success() {
-        System.out.println(userRepository.findAll());
-        return "/";
+    @GetMapping("/access_denied")
+    String accessDenied(){
+        return "accessDenied";
     }
+
+//    @RequestMapping("/success")
+//    public String success() {
+//        System.out.println(userRepository.findAll());
+//        return "/";
+//    }
 
     @RequestMapping("/profile")
     public String profile() {

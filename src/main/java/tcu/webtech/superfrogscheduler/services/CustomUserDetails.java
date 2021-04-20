@@ -3,6 +3,7 @@ package tcu.webtech.superfrogscheduler.services;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tcu.webtech.superfrogscheduler.models.User;
 
 import java.util.Collection;

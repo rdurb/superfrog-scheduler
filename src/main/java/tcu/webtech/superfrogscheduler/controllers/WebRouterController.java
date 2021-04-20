@@ -13,16 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import tcu.webtech.superfrogscheduler.models.ERole;
 import tcu.webtech.superfrogscheduler.models.Role;
 import tcu.webtech.superfrogscheduler.models.User;
+import tcu.webtech.superfrogscheduler.repositories.RoleRepository;
 import tcu.webtech.superfrogscheduler.repositories.UserRepository;
 import tcu.webtech.superfrogscheduler.services.CustomUserDetails;
-
+import tcu.webtech.superfrogscheduler.services.CustomUserDetailsService;
 @Controller
 public class WebRouterController {
 
     @Autowired
     private UserRepository userRepository;
-
-    private Role r1 = new Role(ERole.ROLE_CUSTOMER);
+    private CustomUserDetailsService customUserDetailsService;
+    private RoleRepository roleRepository;
     @RequestMapping("/")
     public String home(Model model,HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -91,8 +92,9 @@ public class WebRouterController {
         return "register";
     }
 
-    @PostMapping("/process_register")
+    @PostMapping("/register/process_register")
     public String processRegister(User user) {
+//        customUserDetailsService.saveUser(user);
         System.out.println("User firstname: " + user.getFirstName());
         System.out.println("User lastname: " + user.getLastName());
         System.out.println("User email: " + user.getEmail());
@@ -101,7 +103,8 @@ public class WebRouterController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-//        user.addRole(r1);
+//        Role role1 = new Role(ERole.ROLE_CUSTOMER);
+//        user.addRole(role1);
         userRepository.save(user);
         return "register_success";
     }

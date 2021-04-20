@@ -30,7 +30,7 @@
                         <div class="text-center">
                             <h4 class="text-dark mb-4">Create an Account!</h4>
                         </div>
-                        <form class="user" th:action="@{/process_register}" method="post" th:object="${user}">
+                        <form class="user" th:action="@{/register/process_register}" method="post" th:object="${user}">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input class="form-control form-control-user" type="text" th:field="*{firstName}" required placeholder="First Name" name="first_name">

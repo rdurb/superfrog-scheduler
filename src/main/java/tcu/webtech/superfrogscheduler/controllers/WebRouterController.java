@@ -52,12 +52,21 @@ public class WebRouterController {
         model.addAttribute("user", currentUser);return "dashboard";
     }
 
+    @RequestMapping("/request")
+    public String request(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
+
+        model.addAttribute("user", currentUser);return "request";
+    }
+
     @RequestMapping("/tcuevent")
     public String tcuevent(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
 
-        model.addAttribute("user", currentUser);return "tcuevent";
+        model.addAttribute("user", currentUser);
+        return "tcuevent";
     }
 
     @RequestMapping("/login")

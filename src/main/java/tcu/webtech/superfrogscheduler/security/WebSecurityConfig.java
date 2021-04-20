@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import tcu.webtech.superfrogscheduler.models.ERole;
+import tcu.webtech.superfrogscheduler.models.Role;
 import tcu.webtech.superfrogscheduler.services.CustomUserDetailsService;
 
 @Configuration
@@ -20,7 +22,7 @@ import tcu.webtech.superfrogscheduler.services.CustomUserDetailsService;
         // jsr250Enabled = true,
         prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -53,6 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/img/**", "/bootstrap/**", "/css/**", "/fonts/**", "/js/**").permitAll()
                     .antMatchers("/register").permitAll()
                     .antMatchers("/process_register").permitAll()
+                    .antMatchers("/request").hasAnyAuthority()
+                    .antMatchers("/spiritdirectortable").hasAuthority("ROLE_SPIRITDIRECTOR")
                     .anyRequest().authenticated()
                 .and()
                 .formLogin()

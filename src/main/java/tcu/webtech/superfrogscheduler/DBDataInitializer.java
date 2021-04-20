@@ -23,14 +23,14 @@ public class DBDataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        // We must initialize the roles in the DB for them to be recognized by login/signup
-        Role r1 = new Role(ERole.ROLE_CUSTOMER);
-        Role r2 = new Role(ERole.ROLE_SUPERFROG);
-        Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
-
-        roleRepository.save(r1);
-        roleRepository.save(r2);
-        roleRepository.save(r3);
+//        // We must initialize the roles in the DB for them to be recognized by login/signup
+//        Role r1 = new Role(ERole.ROLE_CUSTOMER);
+//        Role r2 = new Role(ERole.ROLE_SUPERFROG);
+//        Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
+//
+//        roleRepository.save(r1);
+//        roleRepository.save(r2);
+//        roleRepository.save(r3);
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword;
@@ -40,6 +40,7 @@ public class DBDataInitializer implements CommandLineRunner {
         user1.setPassword("123456");
         user1.setFirstName("John");
         user1.setLastName("Doe");
+//        user1.setRoles(ERole.ROLE_CUSTOMER);
         encodedPassword = passwordEncoder.encode(user1.getPassword());
         user1.setPassword(encodedPassword);
 
@@ -74,5 +75,16 @@ public class DBDataInitializer implements CommandLineRunner {
 //        userService.save(u1);
 //        userService.save(u2);
 //        userService.save(u3);
+        Role r1 = new Role(ERole.ROLE_CUSTOMER);
+        Role r2 = new Role(ERole.ROLE_SUPERFROG);
+        Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
+
+        r1.setId(user3.getId());
+        r2.setId(user2.getId());
+        r3.setId(user1.getId());
+
+        roleRepository.save(r1);
+        roleRepository.save(r2);
+        roleRepository.save(r3);
     }
 }

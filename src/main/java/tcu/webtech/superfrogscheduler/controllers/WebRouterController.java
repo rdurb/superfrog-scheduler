@@ -69,13 +69,4 @@ public class WebRouterController {
         return "/";
     }
 
-    @RequestMapping("/profile")
-    public String profile(Model model, Authentication authentication) {
-        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
-
-        model.addAttribute("user", currentUser);
-
-        return "profile";
-    }
-
 }

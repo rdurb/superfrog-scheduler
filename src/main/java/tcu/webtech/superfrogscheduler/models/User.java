@@ -32,6 +32,8 @@ public class User {
 
     private String role;
 
+    private boolean isActive;
+
     public User() {
     }
 
@@ -41,6 +43,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role.toUpperCase();
+        this.isActive = true;
     }
 
     public Long getId() {
@@ -82,6 +85,12 @@ public class User {
     public String getRole() { return role; }
 
     public void setRole(String role) { this.role = role.toUpperCase(); }
+
+    public boolean getIsActive() { return isActive; }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 
     @Override
     public String toString() {

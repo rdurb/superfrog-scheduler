@@ -30,6 +30,8 @@ public class User {
     @NotBlank
     private String lastName;
 
+    private String phoneNumber;
+
     private String role;
 
     private boolean isActive;
@@ -37,11 +39,12 @@ public class User {
     public User() {
     }
 
-    public User(String email, String password, String firstName, String lastName, String role) {
+    public User(String email, String password, String firstName, String lastName, String phoneNumber, String role) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.role = role.toUpperCase();
         this.isActive = true;
     }
@@ -85,6 +88,14 @@ public class User {
     public String getRole() { return role; }
 
     public void setRole(String role) { this.role = role.toUpperCase(); }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
 
     public boolean getIsActive() { return isActive; }
 

@@ -31,6 +31,7 @@ public class RegisterController {
                 passwordEncoder.encode(user.getPassword()),
                 user.getFirstName(),
                 user.getLastName(),
+                user.getPhoneNumber(),
                 "CUSTOMER"
         ));
 

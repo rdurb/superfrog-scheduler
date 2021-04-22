@@ -11,11 +11,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void updateUserById(Long userID, String email, String firstName, String lastName) {
+    public void updateUserById(Long userID, String email, String firstName, String lastName, String phoneNumber) {
         User user = userRepository.getOne(userID);
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setPhoneNumber(phoneNumber);
         userRepository.save(user);
     }
 

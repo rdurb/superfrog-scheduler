@@ -22,6 +22,7 @@ public class DBDataInitializer implements CommandLineRunner {
                 passwordEncoder.encode("password"),
                 "Sample",
                 "Customer",
+                "555-555-5555",
                 "CUSTOMER")
         );
 
@@ -30,6 +31,7 @@ public class DBDataInitializer implements CommandLineRunner {
                 passwordEncoder.encode("password"),
                 "Sample",
                 "Superfrog",
+                "555-555-5555",
                 "SUPERFROG")
         );
 
@@ -38,6 +40,7 @@ public class DBDataInitializer implements CommandLineRunner {
                 passwordEncoder.encode("password"),
                 "Sample",
                 "SpiritDirector",
+                "555-555-5555",
                 "SPIRITDIRECTOR")
         );
     }

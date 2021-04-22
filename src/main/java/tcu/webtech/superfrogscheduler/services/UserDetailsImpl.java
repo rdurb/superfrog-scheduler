@@ -30,14 +30,18 @@ public class UserDetailsImpl implements UserDetails {
     @NotBlank
     private String lastName;
 
+    @NotBlank
+    private String phoneNumber;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String email, String password, String firstName, String lastName, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(String email, String password, String firstName, String lastName, String phoneNumber, Collection<? extends GrantedAuthority> authorities) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.authorities = authorities;
     }
 
@@ -59,6 +63,10 @@ public class UserDetailsImpl implements UserDetails {
     public String getFirstName() { return this.firstName; }
 
     public String getLastName() { return this.lastName; }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
 
     @Override
     public boolean isAccountNonExpired() { return true; }

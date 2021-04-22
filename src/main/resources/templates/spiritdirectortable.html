@@ -126,62 +126,39 @@
                              aria-describedby="dataTable_info">
                             <table class="table my-0" id="dataTable">
                                 <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th class="text-left">Operation</th>
-                                </tr>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th class="text-center">Operation</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>James Watson</td>
-                                    <td>123-456-7890</td>
-                                    <td>jameswatson@gmail.com</td>
-                                    <td class="text-center d-lg-flex justify-content-lg-center">
-                                        <button class="btn btn-primary" type="button"
-                                                style="margin-left: 0px;margin-right: 5px;">Edit
-                                        </button>
-                                        <button class="btn btn-primary" type="button"
-                                                style="margin-right: 5px;background: var(--red);"
-                                                href="javascript:void(0);" onclick="delTr(this);"></a>Delete
-                                        </button>
-                                        <button class="btn btn-primary" type="button"
-                                                style="margin-right: 5px;background: var(--green);"
-                                                href="javascript:void(0);" onclick="approve(this);"></a>Approve
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Emilia Harper</td>
-                                    <td>456-789-1230<br></td>
-                                    <td>e.Harper@yahoo.com</td>
-                                    <td class="text-center d-lg-flex justify-content-lg-center">
-                                        <button class="btn btn-primary" type="button"
-                                                style="margin-left: 0px;margin-right: 5px;">Edit
-                                        </button>
-                                        <button class="btn btn-primary" type="button"
-                                                style="margin-right: 5px;background: var(--red);"
-                                                href="javascript:void(0);" onclick="delTr(this);"></a>Delete
-                                        </button>
-                                        <button class="btn btn-primary" type="button"
-                                                style="margin-right: 5px;background: var(--green);"
-                                                href="javascript:void(0);" onclick="approve(this);"></a>Approve
-                                        </button>
-                                    </td>
-                                </tr>
+                                    <tr th:each="customer: ${customers}">
+                                        <td th:text="${customer.getId()}"></td>
+                                        <td th:text="${customer.getFirstName() + ' ' + customer.getLastName()}"></td>
+                                        <td th:text="${customer.getEmail()}"></td>
+                                        <td class="text-center d-lg-flex justify-content-lg-center">
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-left: 0px;margin-right: 5px;">Edit
+                                            </button>
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 5px;background: var(--red);"
+                                                    href="javascript:void(0);" onclick="delTr(this);"></a>Delete
+                                            </button>
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 5px;background: var(--green);"
+                                                    href="javascript:void(0);" onclick="approve(this);"></a>Approve
+                                            </button>
+                                    </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr>
-                                    <td><strong>ID</strong></td>
-                                    <td><strong>Name</strong></td>
-                                    <td><strong>Phone</strong></td>
-                                    <td><strong>Email</strong></td>
-                                    <td><strong>Operation</strong></td>
-                                </tr>
+                                    <tr>
+                                        <td><strong>ID</strong></td>
+                                        <td><strong>Name</strong></td>
+                                        <td><strong>Email</strong></td>
+                                        <td class="text-center"><strong>Operation</strong></td>
+                                    </tr>
                                 </tfoot>
                             </table>
                         </div>

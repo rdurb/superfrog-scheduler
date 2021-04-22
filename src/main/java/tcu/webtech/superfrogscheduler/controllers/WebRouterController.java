@@ -26,15 +26,6 @@ public class WebRouterController {
         return "index";
     }
 
-    @PreAuthorize("hasAuthority('SPIRITDIRECTOR')")
-    @RequestMapping("/spiritdirectortable")
-    public String spiritdirectortable(Model model, Authentication authentication) {
-        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
-
-        model.addAttribute("user", currentUser);
-        return "spiritdirectortable";
-    }
-
     @RequestMapping("/dashboard")
     public String dashboard(Model model, Authentication authentication) {
         UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
@@ -79,7 +70,11 @@ public class WebRouterController {
     }
 
     @RequestMapping("/profile")
-    public String profile() {
+    public String profile(Model model, Authentication authentication) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
+
+        model.addAttribute("user", currentUser);
+
         return "profile";
     }
 

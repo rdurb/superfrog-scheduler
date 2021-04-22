@@ -16,19 +16,19 @@ public class TestController {
     }
 
     @GetMapping("/customer")
-    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SUPERFROG') or hasRole('SPIRITDIRECTOR')")
+    @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('SUPERFROG') or hasAuthority('SPIRITDIRECTOR')")
     public String userAccess() {
         return "User Content.";
     }
 
     @GetMapping("/superfrog")
-    @PreAuthorize("hasRole('SUPERFROG')")
+    @PreAuthorize("hasAuthority('SUPERFROG')")
     public String moderatorAccess() {
         return "SuperFrog Board.";
     }
 
     @GetMapping("/spiritdirector")
-    @PreAuthorize("hasRole('SPIRITDIRECTOR')")
+    @PreAuthorize("hasAuthority('SPIRITDIRECTOR')")
     public String adminAccess() {
         return "Spirit Director Board.";
     }

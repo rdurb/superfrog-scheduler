@@ -31,9 +31,6 @@ public class UserDetailsImpl implements UserDetails {
     private String lastName;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(String email, String password, String firstName, String lastName, Collection<? extends GrantedAuthority> authorities) {

@@ -1,12 +1,5 @@
 package tcu.webtech.superfrogscheduler.models;
 
-import org.springframework.security.core.CredentialsContainer;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

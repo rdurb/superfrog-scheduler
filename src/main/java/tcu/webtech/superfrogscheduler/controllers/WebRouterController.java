@@ -17,7 +17,6 @@ public class WebRouterController {
 
     @Autowired
     private UserRepository userRepository;
-    private UserDetailsServiceImpl customUserDetailsService;
 
     @RequestMapping("/")
     public String home(Model model, Authentication authentication) {
@@ -27,6 +26,7 @@ public class WebRouterController {
         return "index";
     }
 
+    @PreAuthorize("hasAuthority('SPIRITDIRECTOR')")
     @RequestMapping("/spiritdirectortable")
     public String spiritdirectortable(Model model, Authentication authentication) {
         UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();

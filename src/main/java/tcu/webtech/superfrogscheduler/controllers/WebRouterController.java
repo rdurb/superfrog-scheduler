@@ -23,53 +23,49 @@ public class WebRouterController {
     public String home(Model model, Authentication authentication) {
         UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
 
-        model.addAttribute("firstName", currentUser.getFirstName());
-        model.addAttribute("lastName", currentUser.getLastName());
+        model.addAttribute("user", currentUser);
         return "index";
     }
 
-//    @RequestMapping("/spiritdirectortable")
-//    public String spiritdirectortable(Model model) {
-//
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails currentUser = ((UserDetailsImpl) authentication.getPrincipal());
-//
-//        model.addAttribute("user", currentUser);
-//        return "spiritdirectortable";
-//    }
-//
-//    @RequestMapping("/dashboard")
-//    public String dashboard(Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User currentUser = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
-//
-//        model.addAttribute("user", currentUser);return "dashboard";
-//    }
-//
-//    @RequestMapping("/request")
-//    public String request(Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User currentUser = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
-//
-//        model.addAttribute("user", currentUser);return "request";
-//    }
-//
-//    @RequestMapping("/tcuevent")
-//    public String tcuevent(Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User currentUser = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
-//
-//        model.addAttribute("user", currentUser);
-//        return "tcuevent";
-//    }
-//
-//    @RequestMapping("/calendar")
-//    public String calendar(Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User currentUser = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
-//
-//        model.addAttribute("user", currentUser);return "calendar";
-//    }
+    @RequestMapping("/spiritdirectortable")
+    public String spiritdirectortable(Model model, Authentication authentication) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
+
+        model.addAttribute("user", currentUser);
+        return "spiritdirectortable";
+    }
+
+    @RequestMapping("/dashboard")
+    public String dashboard(Model model, Authentication authentication) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
+
+        model.addAttribute("user", currentUser);
+        return "dashboard";
+    }
+
+    @RequestMapping("/request")
+    public String request(Model model, Authentication authentication) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
+
+        model.addAttribute("user", currentUser);
+        return "request";
+    }
+
+    @RequestMapping("/tcuevent")
+    public String tcuevent(Model model, Authentication authentication) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
+
+        model.addAttribute("user", currentUser);
+        return "tcuevent";
+    }
+
+    @RequestMapping("/calendar")
+    public String calendar(Model model, Authentication authentication) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
+
+        model.addAttribute("user", currentUser);
+        return "calendar";
+    }
 
     @GetMapping("/access_denied")
     String accessDenied(){

@@ -2,92 +2,43 @@ package tcu.webtech.superfrogscheduler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import tcu.webtech.superfrogscheduler.models.ERole;
-import tcu.webtech.superfrogscheduler.models.Role;
 import tcu.webtech.superfrogscheduler.models.User;
 import tcu.webtech.superfrogscheduler.repositories.UserRepository;
-import tcu.webtech.superfrogscheduler.services.CustomUserDetails;
-import tcu.webtech.superfrogscheduler.services.CustomUserDetailsService;
-import tcu.webtech.superfrogscheduler.repositories.RoleRepository;
 
 @Component
 public class DBDataInitializer implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
-    private RoleRepository roleRepository;
-    //    @Autowired
-//    private CustomUserDetailsService userService;
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void run(String... args) throws Exception {
+        userRepository.save(new User(
+                "customer@gmail.com",
+                passwordEncoder.encode("password"),
+                "Sample",
+                "Customer",
+                "CUSTOMER")
+        );
 
-//        // We must initialize the roles in the DB for them to be recognized by login/signup
-        Role r1 = new Role(ERole.ROLE_CUSTOMER);
-        Role r2 = new Role(ERole.ROLE_SUPERFROG);
-        Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
+        userRepository.save(new User(
+                "superfrog@gmail.com",
+                passwordEncoder.encode("password"),
+                "Sample",
+                "Superfrog",
+                "SUPERFROG")
+        );
 
-        roleRepository.save(r1);
-        roleRepository.save(r2);
-        roleRepository.save(r3);
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword;
-
-        User user1 = new User();
-        user1.setEmail("john@gmail.com");
-        user1.setPassword("123456");
-        user1.setFirstName("John");
-        user1.setLastName("Doe");
-        user1.addRole(r3);
-        encodedPassword = passwordEncoder.encode(user1.getPassword());
-        user1.setPassword(encodedPassword);
-
-        User user2 = new User();
-        user2.setEmail("eric@gmail.com");
-        user2.setPassword("654321");
-        user2.setFirstName("Eric");
-        user2.setLastName("Smith");
-        user2.addRole(r1);
-        encodedPassword = passwordEncoder.encode(user2.getPassword());
-        user2.setPassword(encodedPassword);
-
-        User user3 = new User();
-        user3.setEmail("tom@gmail.com");
-        user3.setPassword("123");
-        user3.setFirstName("Tom");
-        user3.setLastName("Petty");
-        user3.addRole(r2);
-        encodedPassword = passwordEncoder.encode(user3.getPassword());
-        user3.setPassword(encodedPassword);
-
-        User user4 = new User();
-        user4.setEmail("jack@gmail.com");
-        user4.setPassword("321");
-        user4.setFirstName("Jack");
-        user4.setLastName("Frost");
-        user4.addRole(r3);
-        encodedPassword = passwordEncoder.encode(user4.getPassword());
-        user4.setPassword(encodedPassword);
-
-        userRepository.save(user1);
-        userRepository.save(user2);
-        userRepository.save(user3);
-        userRepository.save(user4);
-//        userService.save(u1);
-//        userService.save(u2);
-//        userService.save(u3);
-//        Role r1 = new Role(ERole.ROLE_CUSTOMER);
-//        Role r2 = new Role(ERole.ROLE_SUPERFROG);
-//        Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
-//
-//        r1.setId(user3.getId());
-//        r2.setId(user2.getId());
-//        r3.setId(user1.getId());
-//
-//        roleRepository.save(r1);
-//        roleRepository.save(r2);
-//        roleRepository.save(r3);
+        userRepository.save(new User(
+                "spiritdirector@gmail.com",
+                passwordEncoder.encode("password"),
+                "Sample",
+                "SpiritDirector",
+                "SPIRITDIRECTOR")
+        );
     }
 }

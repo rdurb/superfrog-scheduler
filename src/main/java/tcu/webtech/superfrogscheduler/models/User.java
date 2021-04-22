@@ -1,5 +1,8 @@
 package tcu.webtech.superfrogscheduler.models;
 
+import org.springframework.security.core.CredentialsContainer;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,18 +37,17 @@ public class User {
     @NotBlank
     private String lastName;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private String role;
 
     public User() {
     }
 
-    public User(String email, String password) {
+    public User(String email, String password, String firstName, String lastName, String role) {
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role.toUpperCase();
     }
 
     public Long getId() {
@@ -84,17 +86,9 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+    public String getRole() { return role; }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-    public void addRole(Role role)
-    {
-        this.roles.add(role);
-    }
+    public void setRole(String role) { this.role = role.toUpperCase(); }
 
     @Override
     public String toString() {

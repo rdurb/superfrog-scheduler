@@ -1,71 +1,58 @@
 package tcu.webtech.superfrogscheduler.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import tcu.webtech.superfrogscheduler.models.ERole;
-import tcu.webtech.superfrogscheduler.models.Role;
-import tcu.webtech.superfrogscheduler.services.CustomUserDetailsService;
+import tcu.webtech.superfrogscheduler.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        // securedEnabled = true,
-        // jsr250Enabled = true,
-        prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    Role r3 = new Role(ERole.ROLE_SPIRITDIRECTOR);
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
+                    // Permit assets and console
                     .antMatchers("/h2-console/**").permitAll()
                     .antMatchers("/img/**", "/bootstrap/**", "/css/**", "/fonts/**", "/js/**").permitAll()
+
+                    // Permit Registration
                     .antMatchers("/register/**").permitAll()
-                    .antMatchers("/request").hasAnyAuthority()
-                    .antMatchers("/spiritdirectortable").hasAnyRole()
-                    .anyRequest().authenticated()
-                .and()
+
+                .anyRequest().authenticated()
+            .and()
                 .formLogin()
                     .loginPage("/login")
                     .usernameParameter("email")
                     .defaultSuccessUrl("/")
                     .permitAll()
-                .and()
-                    .logout().logoutSuccessUrl("/login").permitAll()
-                .and()
+            .and()
+                .logout()
+                    .logoutSuccessUrl("/login")
+                    .permitAll()
+            .and()
                 .exceptionHandling()
                 .accessDeniedPage("/access_denied"); // 403 error
 

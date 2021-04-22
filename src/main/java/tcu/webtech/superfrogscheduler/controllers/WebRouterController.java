@@ -34,14 +34,6 @@ public class WebRouterController {
         return "dashboard";
     }
 
-    @RequestMapping("/request")
-    public String request(Model model, Authentication authentication) {
-        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
-
-        model.addAttribute("user", currentUser);
-        return "request";
-    }
-
     @RequestMapping("/tcuevent")
     public String tcuevent(Model model, Authentication authentication) {
         UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();

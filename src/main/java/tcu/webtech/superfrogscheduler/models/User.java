@@ -105,6 +105,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "[Email: " + this.email + ", FirstName: " + this.firstName + ", lastName: " + this.lastName + "]";
+        return "[User ID:" + this.id + ", Email: " + this.email + ", FirstName: " + this.firstName + ", LastName: " + this.lastName + ", Phone Number: " + this.phoneNumber +  ", Roles: " + this.role +  ", Is_Active: " + this.isActive + "]";
     }
 }

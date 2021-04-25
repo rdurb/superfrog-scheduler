@@ -41,6 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     // Permit Registration
                     .antMatchers("/register/**").permitAll()
 
+//                    // Permit Excel Report
+//                     .antMatchers("/spiritdirectortable/**").permitAll()
+
                 .anyRequest().authenticated()
             .and()
                 .formLogin()

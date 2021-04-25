@@ -85,6 +85,13 @@
             </nav>
             <div class="container-fluid">
                 <h3 class="text-dark mb-4" style="color: var(--purple);">Customer Information</h3>
+<!--                <form th:action="@{/spiritdirectortable/export}" method="post">-->
+<!--                    <button class="btn btn-primary btn-block text-white btn-user" type="submit" style="background: var(&#45;&#45;purple);">Export To Excel</button>-->
+<!--                </form>-->
+
+                <a th:href="@{/spiritdirectortable/export}">Export to Excel</a>
+                <br/>
+                <br/>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="table-responsive table mt-2" id="dataTable" role="grid"

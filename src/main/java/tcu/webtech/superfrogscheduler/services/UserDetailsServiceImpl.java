@@ -10,7 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import tcu.webtech.superfrogscheduler.models.User;
 import tcu.webtech.superfrogscheduler.repositories.UserRepository;
-
+import java.util.List;
+import org.springframework.data.domain.Sort;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,5 +34,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));
 
         return new UserDetailsImpl(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(), grantedAuthorities);
+    }
+
+    public List<User> listAll() {
+        return userRepo.findAll(Sort.by("id").ascending());
     }
 }

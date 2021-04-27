@@ -52,7 +52,6 @@ public class RequestController {
 
         // TODO: notify user by email that their event has successfully been requested
 
-        // TODO: Create "Event Successfully Requested" page
         return "redirect:/calendar";
     }
 

@@ -50,15 +50,6 @@ public class RequestController {
 
         eventRepository.save(event);
 
-        System.out.println("Requesting ID: " + event.getRequestingUserId());
-        System.out.println("Event ID: " + event.getId());
-        System.out.println("Event Title: " + event.getTitle());
-        System.out.println("Event Description: " + event.getDescription());
-        System.out.println("Event Date: " + event.getDate());
-        System.out.println("Event startTime: " + event.getStartTime());
-        System.out.println("Event endTime: " + event.getEndTime());
-        System.out.println("Event Status: " + event.getStatus());
-
         // TODO: notify user by email that their event has successfully been requested
 
         // TODO: Create "Event Successfully Requested" page

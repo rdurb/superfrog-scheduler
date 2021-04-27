@@ -34,10 +34,8 @@
                 eventColor: '#4d1979'
             });
 
-
             // Add the events to the calendar
             var allEvents = [[${allEvents}]];
-            console.log(allEvents)
             for (var i = 0; i < allEvents.length; i++) {
                 var event = allEvents[i];
                 calendar.addEvent({
@@ -46,11 +44,6 @@
                     start: event.date,
                     allDay: true
                 });
-
-                console.log(event.title);
-                console.log(event.date);
-                console.log(event.startTime);
-                console.log(event.endTime);
             }
 
             console.log(calendar.getEvents());

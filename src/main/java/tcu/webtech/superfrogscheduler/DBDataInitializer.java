@@ -4,13 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import tcu.webtech.superfrogscheduler.models.Event;
 import tcu.webtech.superfrogscheduler.models.User;
+import tcu.webtech.superfrogscheduler.repositories.EventRepository;
 import tcu.webtech.superfrogscheduler.repositories.UserRepository;
 
 @Component
 public class DBDataInitializer implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -43,5 +48,32 @@ public class DBDataInitializer implements CommandLineRunner {
                 "555-555-5555",
                 "SPIRITDIRECTOR")
         );
+
+        eventRepository.save(new Event(
+                1L,
+                "Event 1",
+                "Event description",
+                "2021-04-27",
+                "12:00 PM",
+                "1:00 PM"
+        ));
+
+        eventRepository.save(new Event(
+                1L,
+                "Event 2",
+                "Event description",
+                "2021-04-28",
+                "12:00 PM",
+                "1:00 PM"
+        ));
+
+        eventRepository.save(new Event(
+                1L,
+                "Event 3",
+                "Event description",
+                "2021-04-29",
+                "12:00 PM",
+                "1:00 PM"
+        ));
     }
 }

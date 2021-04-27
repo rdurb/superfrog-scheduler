@@ -42,14 +42,6 @@ public class WebRouterController {
         return "tcuevent";
     }
 
-    @RequestMapping("/calendar")
-    public String calendar(Model model, Authentication authentication) {
-        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
-
-        model.addAttribute("user", currentUser);
-        return "calendar";
-    }
-
     @GetMapping("/access_denied")
     public String accessDenied(){
         return "accessDenied";

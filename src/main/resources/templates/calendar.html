@@ -17,7 +17,7 @@
 
     <link href='/js/fullcalendar/main.css' rel='stylesheet'/>
     <script src='/js/fullcalendar/main.js'></script>
-    <script>
+    <script th:inline="javascript">
 
         // FullCalendar.js documentation: https://fullcalendar.io/docs
         // Date format: YYYY-MM-DD
@@ -30,25 +30,33 @@
                     center: 'title',
                     right: 'prev,next'
                 },
-
-                // Sample events for the time being
-                events: [
-                    {
-                        title: "Cindy's 20th Bluu Anniversary",
-                        start: "2021-03-29",
-                        end: "2021-03-29"
-                    },
-                    {
-                        title: "Dr. Wei's Awesome Celebration",
-                        start: "2021-03-30",
-                        end: "2021-03-30"
-                    }
-                ],
+                events: [],
                 eventColor: '#4d1979'
             });
+
+
+            // Add the events to the calendar
+            var allEvents = [[${allEvents}]];
+            console.log(allEvents)
+            for (var i = 0; i < allEvents.length; i++) {
+                var event = allEvents[i];
+                calendar.addEvent({
+                    id: event.id,
+                    title: event.title,
+                    start: event.date,
+                    allDay: true
+                });
+
+                console.log(event.title);
+                console.log(event.date);
+                console.log(event.startTime);
+                console.log(event.endTime);
+            }
+
+            console.log(calendar.getEvents());
+
             calendar.render();
         });
-
     </script>
 </head>
 
@@ -124,10 +132,6 @@
 </div>
 <script src="/js/jquery.min.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
-
-<script src="/js/Bootstrap-DateTime-Picker-1.js"></script>
-<script src="/js/Bootstrap-DateTime-Picker-2.js"></script>
-<script src="/js/Bootstrap-DateTime-Picker.js"></script>
 <script src="/js/fullcalendar/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="/js/theme.js"></script>

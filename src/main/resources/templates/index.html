@@ -91,15 +91,18 @@
                                     Amon G. Carter Stadium.<br></p>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-5 col-lg-4 item">
-                            <div class="box" style="height: 470px;"><i class="fa fa-calendar icon"
-                                                                       style="color: var(--purple);"></i>
-                                <h3 class="name" style="border-color: var(--purple);">Request</h3>
-                                <p class="description">Request TCU Spirit from a calendar of available dates. Requests
-                                    must be submitted at least 14 days prior to event date to be considered. Submission
-                                    of a request does not guarantee the event will be accepted. TCU Spirit has until 5
-                                    days prior the date of the event to accept or decline a request.<br></p>
-                            </div>
+
+                        <div class="col-sm-6 col-md-5 col-lg-4 item" >
+                            <a th:href="@{/calendar}" style="text-decoration: none; color: inherit;">
+                                <div class="box" style="height: 470px;">
+                                    <i class="fa fa-calendar icon" style="color: var(--purple);"></i>
+                                    <h3 class="name" style="border-color: var(--purple);">Request</h3>
+                                    <p class="description">Request TCU Spirit from a calendar of available dates. Requests
+                                        must be submitted at least 14 days prior to event date to be considered. Submission
+                                        of a request does not guarantee the event will be accepted. TCU Spirit has until 5
+                                        days prior the date of the event to accept or decline a request.<br></p>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>

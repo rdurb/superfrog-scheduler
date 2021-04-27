@@ -29,7 +29,7 @@
             <ul class="navbar-nav text-light" id="accordionSidebar">
                 <li class="nav-item"><a class="nav-link" th:href="@{/}"><i class="fa fa-home"></i><span>Home</span></a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/calendar}"><i class="fa fa-calendar"></i><span>Calendar</span></a></li>
-                <li sec:authorize="hasAuthority('SPIRITDIRECTOR')" class="nav-item active"><a class="nav-link" th:href="@{/spiritdirectortable}"><i class="fas fa-table"></i><span>Table</span></a></li>
+                <li sec:authorize="hasAuthority('SPIRITDIRECTOR')" class="nav-item active"><a class="nav-link" th:href="@{/spiritdirectortable}"><i class="fas fa-table"></i><span>Manage Users</span></a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}"><i class="far fa-user-circle"></i><span>Dashboard</span></a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{tcuevent}"><i class="fas fa-user-circle"></i><span>Tcu Event</span></a></li>
                 <li class="nav-item"></li>

@@ -42,6 +42,7 @@ public class SpiritDirectorTableController {
 
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("newSuperFrog", new User());
+        model.addAttribute("editUser", new User());
         model.addAttribute("customers", allCustomers);
         model.addAttribute("superfrogs", allSuperFrogs);
         return "spiritdirectortable";
@@ -71,6 +72,21 @@ public class SpiritDirectorTableController {
         boolean currentStatus = user.getIsActive();
         user.setIsActive(!currentStatus);
         userRepository.save(user);
+
+        // Refreshes the page
+        return "redirect:" + referrer;
+    }
+
+    @PreAuthorize("hasAuthority('SPIRITDIRECTOR')")
+    @PostMapping("/spiritdirectortable/edit")
+    public String editUser(@ModelAttribute("editUser") User user, @RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer) {
+        User updatedUser = userRepository.getOne(user.getId());
+        updatedUser.setEmail(user.getEmail());
+        updatedUser.setFirstName(user.getFirstName());
+        updatedUser.setLastName(user.getLastName());
+        updatedUser.setPhoneNumber(user.getPhoneNumber());
+
+        userRepository.save(updatedUser);
 
         // Refreshes the page
         return "redirect:" + referrer;

@@ -125,9 +125,10 @@
                                             </button>
                                             <a th:href="@{/spiritdirectortable/toggleActiveStatus/__${customer.getId()}__}">
                                                 <button class="btn btn-primary" type="button"
-                                                        style="margin-right: 5px;"
                                                         th:text="${customer.getIsActive() ? 'Deactivate' : 'Activate'}"
-                                                        th:style="${customer.getIsActive() ? 'background: var(--red);' : 'background: var(--green);'}" >
+                                                        th:style="${customer.getIsActive() ?
+                                                        'background: var(--red); margin-right: 5px; width: 105px;' :
+                                                        'background: var(--green); margin-right: 5px; width: 105px;'}">
                                                 </button>
                                             </a>
                                     </tr>
@@ -210,9 +211,10 @@
                                         </button>
                                         <a th:href="@{/spiritdirectortable/toggleActiveStatus/__${superfrog.getId()}__}">
                                             <button class="btn btn-primary" type="button"
-                                                    style="margin-right: 5px;"
                                                     th:text="${superfrog.getIsActive() ? 'Deactivate' : 'Activate'}"
-                                                    th:style="${superfrog.getIsActive() ? 'background: var(--red);' : 'background: var(--green);'}" >
+                                                    th:style="${superfrog.getIsActive() ?
+                                                        'background: var(--red); margin-right: 5px; width: 105px;' :
+                                                        'background: var(--green); margin-right: 5px; width: 105px;'}">
                                             </button>
                                         </a>
                                 </tr>
@@ -249,42 +251,42 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
-                            <div class="form-row">
-                                <div class="col" style="padding-bottom: 10px;">
+                        <form method="post" th:action="@{/spiritdirectortable/edit}" th:object="${editUser}">
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
                                     <label style="font-weight: bold;">ID: </label>
-                                    <label th:text="${customer.getId()}"></label>
+                                    <input th:name="id" th:value="${customer.getId()}" class="form-control" readonly />
                                 </div>
                             </div>
                             <div class="form-row" style="padding-bottom: 10px;">
                                 <div class="col">
                                     <label style="font-weight: bold;">First Name</label>
-                                    <input th:value="${customer.getFirstName()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                    <input th:name="firstName" th:value="${editUser.firstName != null} ? ${editUser.firstName} : ${customer.getFirstName()}" type="text" class="form-control" style="padding-top: 0px;" />
                                 </div>
                             </div>
                             <div class="form-row" style="padding-bottom: 10px;">
                                 <div class="col">
                                     <label style="font-weight: bold;">Last Name</label>
-                                    <input th:value="${customer.getLastName()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                    <input th:name="lastName" th:value="${editUser.lastName != null} ? ${editUser.lastName} : ${customer.getLastName()}" type="text" class="form-control" style="padding-top: 0px;" />
                                 </div>
                             </div>
                             <div class="form-row" style="padding-bottom: 10px;">
                                 <div class="col">
                                     <label style="font-weight: bold;">Email</label>
-                                    <input th:value="${customer.getEmail()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                    <input th:name="email" th:value="${editUser.email != null} ? ${editUser.email} : ${customer.getEmail()}" type="text" class="form-control" style="padding-top: 0px;" />
                                 </div>
                             </div>
                             <div class="form-row" style="padding-bottom: 10px;">
                                 <div class="col">
                                     <label style="font-weight: bold;">Phone</label>
-                                    <input th:value="${customer.getPhoneNumber()}" type="text" class="form-control" />
+                                    <input th:name="phoneNumber" th:value="${editUser.phoneNumber != null} ? ${editUser.phoneNumber} : ${customer.getPhoneNumber()}" type="text" class="form-control" />
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
+                                <button class="btn btn-primary" type="submit" style="background: var(--purple);">Save</button>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" type="button" style="background: var(--purple);">Save</button>
                     </div>
                 </div>
             </div>

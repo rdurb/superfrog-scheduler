@@ -67,23 +67,25 @@
                         <li class="nav-item dropdown no-arrow">
                             <div class="nav-item dropdown no-arrow">
                                 <a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">
-                                    <span class="d-none d-lg-inline mr-2 text-gray-600 small" th:text="${user.getFirstName() + ' ' + user.getLastName()}"></span>
+                                    <span class="d-none d-lg-inline mr-2 text-gray-600 small" th:text="${currentUser.getFirstName() + ' ' + currentUser.getLastName()}"></span>
                                     <img class="border rounded-circle img-profile" src="/img/profilepicture.png"></a>
                                 <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">
                                     <a class="dropdown-item" th:href="@{/profile}">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Profile</a>
 
                                     <div class="dropdown-divider"></div>
-                                    <form method="post" th:action="@{/logout}">
-                                        <a class="dropdown-item" th:href="@{/login}">
-                                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
-                                </div>
+
+                                    <a class="dropdown-item" th:href="@{/login}">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
                             </div>
                         </li>
                     </ul>
                 </div>
             </nav>
+
             <div class="container-fluid">
+
+<!--                Customer Table-->
                 <h3 class="text-dark mb-4" style="color: var(--purple);">Customer Information</h3>
 <!--                <form th:action="@{/spiritdirectortable/export}" method="post">-->
 <!--                    <button class="btn btn-primary btn-block text-white btn-user" type="submit" style="background: var(&#45;&#45;purple);">Export To Excel</button>-->
@@ -103,6 +105,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>
+                                        <th>Status</th>
                                         <th class="text-center">Operation</th>
                                     </tr>
                                 </thead>
@@ -112,18 +115,21 @@
                                         <td th:text="${customer.getFirstName() + ' ' + customer.getLastName()}"></td>
                                         <td th:text="${customer.getEmail()}"></td>
                                         <td th:text="${customer.getPhoneNumber()}"></td>
+                                        <td th:text="${customer.getIsActive() ? 'Active' : 'Inactive'}"></td>
                                         <td class="text-center d-lg-flex justify-content-lg-center">
                                             <button class="btn btn-primary" type="button"
-                                                    style="margin-left: 0px;margin-right: 5px;">Edit
+                                                    style="margin-left: 0px;margin-right: 5px;"
+                                                    data-toggle="modal"
+                                                    th:attr="data-target=${'#customerEditModal' + customer.getId()}"
+                                                    data-row="${customer}">Edit
                                             </button>
-                                            <button class="btn btn-primary" type="button"
-                                                    style="margin-right: 5px;background: var(--red);"
-                                                    href="javascript:void(0);" onclick="delTr(this);"></a>Delete
-                                            </button>
-                                            <button class="btn btn-primary" type="button"
-                                                    style="margin-right: 5px;background: var(--green);"
-                                                    href="javascript:void(0);" onclick="approve(this);"></a>Approve
-                                            </button>
+                                            <a th:href="@{/spiritdirectortable/toggleActiveStatus/__${customer.getId()}__}">
+                                                <button class="btn btn-primary" type="button"
+                                                        style="margin-right: 5px;"
+                                                        th:text="${customer.getIsActive() ? 'Deactivate' : 'Activate'}"
+                                                        th:style="${customer.getIsActive() ? 'background: var(--red);' : 'background: var(--green);'}" >
+                                                </button>
+                                            </a>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -132,6 +138,7 @@
                                         <td><strong>Name</strong></td>
                                         <td><strong>Email</strong></td>
                                         <td><strong>Phone</strong></td>
+                                        <td><strong>Status</strong></td>
                                         <td class="text-center"><strong>Operation</strong></td>
                                     </tr>
                                 </tfoot>
@@ -142,31 +149,36 @@
 
                 <hr/>
 
+<!--                SuperFrog Container-->
                 <h3 class="text-dark mb-4" style="color: var(--purple); padding-top: 20px;">SuperFrog Information</h3>
+
+<!--                Add SuperFrog Form-->
                 <div class="card" style="margin-bottom: 10px;">
                     <div class="card-body">
                         <h4 class="card-title" style="font-size: 18px;">Add a new SuperFrog here:</h4>
                         <div class="row">
-                            <form class="d-lg-flex justify-content-lg-center">
+                            <form method="post" class="d-lg-flex justify-content-lg-center" th:action="@{/spiritdirectortable/addSuperFrog}" th:object="${newSuperFrog}">
                                 <div class="col">
-                                    <input class="form-control" id="firstname" type="text" placeholder="First Name" style="margin-left: 5px;">
+                                    <input required class="form-control" th:field="*{firstName}" type="text" placeholder="First Name" style="margin-left: 5px;">
                                 </div>
                                 <div class="col">
-                                    <input class="form-control" id="lastname" type="text" placeholder="Last Name" style="margin-left: 5px;">
+                                    <input required class="form-control" th:field="*{lastName}" type="text" placeholder="Last Name" style="margin-left: 5px;">
                                 </div>
                                 <div class="col">
-                                    <input class="form-control" id="email" type="text" placeholder="Email" style="margin-left: 5px;">
+                                    <input required class="form-control" th:field="*{email}" name="email" type="text" placeholder="Email" style="margin-left: 5px;">
                                 </div>
                                 <div class="col">
-                                    <input class="form-control" id="tel" type="text" placeholder="Phone Number" style="margin-left: 5px;">
+                                    <input required class="form-control" th:field="*{phoneNumber}" type="text" placeholder="Phone Number" style="margin-left: 5px;">
                                 </div>
-                                <button id="btn_add" class="btn btn-primary" type="button"
+                                <button id="btn_add" class="btn btn-primary" type="submit"
                                         style="margin-left: 5px;background: rgb(68,180,50);">Add
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
+
+<!--                SuperFrog Table-->
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="table-responsive table mt-2" id="dataTable" role="grid"
@@ -178,6 +190,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
+                                    <th>Status</th>
                                     <th class="text-center">Operation</th>
                                 </tr>
                                 </thead>
@@ -187,18 +200,21 @@
                                     <td th:text="${superfrog.getFirstName() + ' ' + superfrog.getLastName()}"></td>
                                     <td th:text="${superfrog.getEmail()}"></td>
                                     <td th:text="${superfrog.getPhoneNumber()}"></td>
+                                    <td th:text="${superfrog.getIsActive() ? 'Active' : 'Inactive'}"></td>
                                     <td class="text-center d-lg-flex justify-content-lg-center">
                                         <button class="btn btn-primary" type="button"
-                                                style="margin-left: 0px;margin-right: 5px;">Edit
+                                                style="margin-left: 0px;margin-right: 5px;"
+                                                data-toggle="modal"
+                                                th:attr="data-target=${'#superFrogEditModal' + superfrog.getId()}"
+                                                data-row="${superfrog}">Edit
                                         </button>
-                                        <button class="btn btn-primary" type="button"
-                                                style="margin-right: 5px;background: var(--red);"
-                                                href="javascript:void(0);" onclick="delTr(this);"></a>Delete
-                                        </button>
-                                        <button class="btn btn-primary" type="button"
-                                                style="margin-right: 5px;background: var(--green);"
-                                                href="javascript:void(0);" onclick="approve(this);"></a>Approve
-                                        </button>
+                                        <a th:href="@{/spiritdirectortable/toggleActiveStatus/__${superfrog.getId()}__}">
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 5px;"
+                                                    th:text="${superfrog.getIsActive() ? 'Deactivate' : 'Activate'}"
+                                                    th:style="${superfrog.getIsActive() ? 'background: var(--red);' : 'background: var(--green);'}" >
+                                            </button>
+                                        </a>
                                 </tr>
                                 </tbody>
                                 <tfoot>
@@ -207,6 +223,7 @@
                                     <td><strong>Name</strong></td>
                                     <td><strong>Email</strong></td>
                                     <td><strong>Phone</strong></td>
+                                    <td><strong>Status</strong></td>
                                     <td class="text-center"><strong>Operation</strong></td>
                                 </tr>
                                 </tfoot>
@@ -215,104 +232,120 @@
                     </div>
                 </div>
             </div>
-
-<!--            <div class="container-fluid">-->
-<!--                <h3 class="text-dark mb-4" style="color: var(&#45;&#45;purple);"SuperFrog Information</h3>-->
-<!--                <div class="card" style="margin-bottom: 10px;">-->
-<!--                    <div class="card-body">-->
-<!--                        <h4 class="card-title" style="font-size: 18px;">Add a new customer here:</h4>-->
-<!--                        <form class="d-lg-flex justify-content-lg-center">-->
-<!--                            <input class="form-control" id="id" type="text" placeholder="ID" style="margin-left: 5px;">-->
-<!--                            <input class="form-control" id="name" type="text" placeholder="Name"-->
-<!--                                   style="margin-left: 5px;">-->
-<!--                            <input class="form-control" id="email" type="text" placeholder="Email"-->
-<!--                                   style="margin-left: 5px;">-->
-<!--                            <button id="btn_add" class="btn btn-primary" type="button"-->
-<!--                                    style="margin-left: 5px;background: rgb(68,180,50);">Add-->
-<!--                            </button>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="card shadow">-->
-<!--                    <div class="card-body">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-6 text-nowrap">-->
-<!--                                <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>Show&nbsp;<select-->
-<!--                                        class="form-control form-control-sm custom-select custom-select-sm">-->
-<!--                                    <option value="10" selected="">10</option>-->
-<!--                                    <option value="25">25</option>-->
-<!--                                    <option value="50">50</option>-->
-<!--                                    <option value="100">100</option>-->
-<!--                                </select>&nbsp;</label></div>-->
-<!--                            </div>-->
-<!--                            <div class="col-md-6">-->
-<!--                                <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input-->
-<!--                                        type="search" class="form-control form-control-sm" aria-controls="dataTable"-->
-<!--                                        placeholder="Search"></label></div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="table-responsive table mt-2" id="dataTable" role="grid"-->
-<!--                             aria-describedby="dataTable_info">-->
-<!--                            <table class="table my-0" id="dataTable">-->
-<!--                                <thead>-->
-<!--                                <tr>-->
-<!--                                    <th>ID</th>-->
-<!--                                    <th>Name</th>-->
-<!--                                    <th>Email</th>-->
-<!--                                    <th class="text-center">Operation</th>-->
-<!--                                </tr>-->
-<!--                                </thead>-->
-<!--                                <tbody>-->
-<!--                                <tr th:each="superfrog: ${superfrogs}">-->
-<!--                                    <td th:text="${superfrog.getId()}"></td>-->
-<!--                                    <td th:text="${superfrog.getFirstName() + ' ' + superfrog.getLastName()}"></td>-->
-<!--                                    <td th:text="${superfrog.getEmail()}"></td>-->
-<!--                                    <td class="text-center d-lg-flex justify-content-lg-center">-->
-<!--                                        <button class="btn btn-primary" type="button"-->
-<!--                                                style="margin-left: 0px;margin-right: 5px;">Edit-->
-<!--                                        </button>-->
-<!--                                        <button class="btn btn-primary" type="button"-->
-<!--                                                style="margin-right: 5px;background: var(&#45;&#45;red);"-->
-<!--                                                href="javascript:void(0);" onclick="delTr(this);"></a>Delete-->
-<!--                                        </button>-->
-<!--                                        <button class="btn btn-primary" type="button"-->
-<!--                                                style="margin-right: 5px;background: var(&#45;&#45;green);"-->
-<!--                                                href="javascript:void(0);" onclick="approve(this);"></a>Approve-->
-<!--                                        </button>-->
-<!--                                </tr>-->
-<!--                                </tbody>-->
-<!--                                <tfoot>-->
-<!--                                <tr>-->
-<!--                                    <td><strong>ID</strong></td>-->
-<!--                                    <td><strong>Name</strong></td>-->
-<!--                                    <td><strong>Email</strong></td>-->
-<!--                                    <td class="text-center"><strong>Operation</strong></td>-->
-<!--                                </tr>-->
-<!--                                </tfoot>-->
-<!--                            </table>-->
-<!--                        </div>-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-6 align-self-center">-->
-<!--                                <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing-->
-<!--                                    1 to 2 of 2</p>-->
-<!--                            </div>-->
-<!--                            <div class="col-md-6">-->
-<!--                                <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">-->
-<!--                                    <ul class="pagination">-->
-<!--                                        <li class="page-item disabled"><a class="page-link" href="#"-->
-<!--                                                                          aria-label="Previous"><span-->
-<!--                                                aria-hidden="true">«</span></a></li>-->
-<!--                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>-->
-<!--                                        <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span-->
-<!--                                                aria-hidden="true">»</span></a></li>-->
-<!--                                    </ul>-->
-<!--                                </nav>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
+
+<!--        Edit Customer Modal-->
+        <div role="dialog" tabindex="-1"
+             class="modal show"
+             id="edit-customer-modal"
+             style="max-width: 500px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);"
+             th:each="customer: ${customers}" th:attr="id=${'customerEditModal' + customer.getId()}">
+            <div role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-lg-flex">
+                        <h4 class="modal-title d-lg-flex">Edit Customer</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-row">
+                                <div class="col" style="padding-bottom: 10px;">
+                                    <label style="font-weight: bold;">ID: </label>
+                                    <label th:text="${customer.getId()}"></label>
+                                </div>
+                            </div>
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
+                                    <label style="font-weight: bold;">First Name</label>
+                                    <input th:value="${customer.getFirstName()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                </div>
+                            </div>
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
+                                    <label style="font-weight: bold;">Last Name</label>
+                                    <input th:value="${customer.getLastName()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                </div>
+                            </div>
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
+                                    <label style="font-weight: bold;">Email</label>
+                                    <input th:value="${customer.getEmail()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                </div>
+                            </div>
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
+                                    <label style="font-weight: bold;">Phone</label>
+                                    <input th:value="${customer.getPhoneNumber()}" type="text" class="form-control" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="button" style="background: var(--purple);">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--        Edit SuperFrog Modal-->
+        <div role="dialog" tabindex="-1"
+             class="modal show"
+             style="max-width: 500px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);"
+             th:each="superfrog: ${superfrogs}" th:attr="id=${'superFrogEditModal' + superfrog.getId()}">
+            <div role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-lg-flex">
+                        <h4 class="modal-title d-lg-flex">Edit SuperFrog</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-row">
+                                <div class="col" style="padding-bottom: 10px;">
+                                    <label style="font-weight: bold;">ID: </label>
+                                    <label th:text="${superfrog.getId()}"></label>
+                                </div>
+                            </div>
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
+                                    <label style="font-weight: bold;">First Name</label>
+                                    <input th:value="${superfrog.getFirstName()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                </div>
+                            </div>
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
+                                    <label style="font-weight: bold;">Last Name</label>
+                                    <input th:value="${superfrog.getLastName()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                </div>
+                            </div>
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
+                                    <label style="font-weight: bold;">Email</label>
+                                    <input th:value="${superfrog.getEmail()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                </div>
+                            </div>
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
+                                    <label style="font-weight: bold;">Phone</label>
+                                    <input th:value="${superfrog.getPhoneNumber()}" type="text" class="form-control" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="button" style="background: var(--purple);">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--        Footer-->
         <footer class="bg-white sticky-footer">
             <div class="container my-auto">
                 <div class="text-center my-auto copyright"><span>Copyright © Brand 2021</span></div>
@@ -327,40 +360,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="/js/theme.js"></script>
 <script>
-    document.getElementById('btn_add').onclick = function () {
-        let id = document.getElementById('id').value;
-        let name = document.getElementById('name').value;
-        let tel = document.getElementById('tel').value;
-        let email = document.getElementById('email').value;
-        let tbody = document.querySelector('tbody');
 
-        tbody.innerHTML +=
-            `<tr>
-                <td>${id}</td>
-                <td>${name}</td>
-                <td>${tel}</td>
-                <td>${email}</td>
-                <td class="text-center d-lg-flex justify-content-lg-center">
-                    <button class="btn btn-primary" type="button" style="margin-left: 0px;margin-right: 5px;">Edit</button>
-                    <button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--red);" href="javascript:void(0);" onclick="delTr(this);"></a>Delete</button>
-                    <button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--green);" href="javascript:void(0);" onclick="approve(this);"></a>Approve</button>
-                </td>
-            </tr>
-            `;
-    }
-
-    function delTr(obj) {
-        let tbody = obj.parentNode.parentNode.parentNode;
-        let tr = obj.parentNode.parentNode;
-        tbody.removeChild(tr);
-
-    }
-
-    function approve(this){
-        let tbody = obj.parentNode.parentNode.parentNode;
-        let tr = obj.parentNode.parentNode;
-
-    }
 </script>
 </body>
 

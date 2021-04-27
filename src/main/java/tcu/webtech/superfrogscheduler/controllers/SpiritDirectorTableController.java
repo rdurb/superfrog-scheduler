@@ -1,13 +1,13 @@
 package tcu.webtech.superfrogscheduler.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import tcu.webtech.superfrogscheduler.models.User;
 import tcu.webtech.superfrogscheduler.repositories.UserRepository;
 import tcu.webtech.superfrogscheduler.services.UserDetailsImpl;
@@ -29,6 +29,9 @@ public class SpiritDirectorTableController {
     @Autowired
     private UserDetailsServiceImpl service;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PreAuthorize("hasAuthority('SPIRITDIRECTOR')")
     @RequestMapping("/spiritdirectortable")
     public String spiritdirectortable(Model model, Authentication authentication) {
@@ -37,20 +40,40 @@ public class SpiritDirectorTableController {
         List<User> allCustomers = userRepository.findAllByRole("CUSTOMER");
         List<User> allSuperFrogs = userRepository.findAllByRole("SUPERFROG");
 
-        model.addAttribute("user", currentUser);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("newSuperFrog", new User());
         model.addAttribute("customers", allCustomers);
         model.addAttribute("superfrogs", allSuperFrogs);
         return "spiritdirectortable";
     }
 
-    @PostMapping("/spiritdirectortable/addCustomer")
-    public String addCustomer() {
-        return "";
+    @PreAuthorize("hasAuthority('SPIRITDIRECTOR')")
+    @PostMapping("/spiritdirectortable/addSuperFrog")
+    public String addSuperFrog(User newSuperFrog, @RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer) {
+        userRepository.save(new User(
+            newSuperFrog.getEmail(),
+            passwordEncoder.encode("Spring2021!"),
+            newSuperFrog.getFirstName(),
+            newSuperFrog.getLastName(),
+            newSuperFrog.getPhoneNumber(),
+            "SUPERFROG"
+        ));
+
+        // Refreshes the page
+        return "redirect:" + referrer;
     }
 
-    @PostMapping("/spiritdirectortable/addSuperFrog")
-    public String addSuperFrog() {
-        return "";
+    @PreAuthorize("hasAuthority('SPIRITDIRECTOR')")
+    @RequestMapping("/spiritdirectortable/toggleActiveStatus/{userId}")
+    public String toggleActiveStatus(@PathVariable("userId") Long id, @RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer) {
+        User user = userRepository.getOne(id);
+
+        boolean currentStatus = user.getIsActive();
+        user.setIsActive(!currentStatus);
+        userRepository.save(user);
+
+        // Refreshes the page
+        return "redirect:" + referrer;
     }
 
 

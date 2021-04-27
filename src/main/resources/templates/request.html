@@ -55,13 +55,12 @@
 
                                 <img
                                     class="border rounded-circle img-profile"
-                                    src="/img/avatars/profilepicture.png"></a>
+                                    src="/img/profilepicture.png"></a>
                                 <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">
                                     <a class="dropdown-item" th:href="@{/profile}">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Profile</a>
 
                                     <div class="dropdown-divider"></div>
-                                    <form method="post" th:action="@{/logout}">
                                         <a class="dropdown-item" th:href="@{/login}">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
                                 </div>
@@ -71,32 +70,46 @@
                 </div>
             </nav>
             <section class="contact-clean" style="margin-bottom: 15px;">
-                <form method="post">
-                    <h2 class="text-center" style="margin-bottom: 5px;">Event Request Form</h2>
-                    <h5 class="text-center" style="color: var(--gray);margin-bottom: 25px;">Please fill all the
-                        information accurately<br></h5>
-                    <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name">
+                <h2 class="text-center" style="margin-bottom: 5px;">Event Request Form</h2>
+                <h5 class="text-center" style="color: var(--gray);margin-bottom: 25px;">Please fill all the information accurately<br></h5>
+
+                <form action="#" th:action="@{/request/process}" th:object="${event}" method="post">
+                    <div class="form-group">
+
+                        <input th:field="*{title}" class="form-control" type="text" name="event-title" placeholder="Event Title" style="margin-bottom: 15px;">
+
+                        <textarea th:field="*{description}" class="form-control" placeholder="Event Description" style="margin-bottom: 15px;" name="event-description"></textarea>
+
+                        <label style="margin-bottom: 0px;">Event Date</label>
+                        <div class="date" id="datetimepicker" data-target-input="nearest" style="margin-bottom: 15px;">
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"
+                                       th:field="*{date}" id="date" />
+                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label style="margin-bottom: 0px;">Start Time</label>
+                        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                            <input th:field="*{startTime}" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
+                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                            </div>
+                        </div>
+
+                        <label style="margin-bottom: 0px;">End Time</label>
+                        <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                            <input th:field="*{endTime}" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3"/>
+                            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group"><input class="form-control is-invalid" type="email" name="email"
-                                                   placeholder="Email" style="padding-right: 12px;margin-bottom: 15px;"><input
-                            class="form-control" type="tel" name="tel" placeholder="Phone" style="margin-bottom: 15px;"><input
-                            class="form-control" type="text" name="event-title" placeholder="Event Title"
-                            style="margin-bottom: 15px;"><textarea class="form-control" placeholder="Event Description"
-                                                                   style="margin-bottom: 15px;"
-                                                                   name="event-description"></textarea><label
-                            style="margin-bottom: 0px;">Event Date</label><input class="form-control" type="date"
-                                                                                 style="margin-bottom: 15px;"
-                                                                                 name="event-date"><label
-                            style="margin-bottom: 0px;">Start Time</label><input class="form-control" type="time"
-                                                                                 style="margin-bottom: 15px;"
-                                                                                 name="event-start-time"><label
-                            style="margin-bottom: 0px;">End Time</label><input class="form-control" type="time"
-                                                                               name="event-end-time"><small
-                            class="form-text text-danger">Please enter a correct email address.</small></div>
+
                     <div class="form-group d-xl-flex justify-content-xl-center">
-                        <button class="btn btn-primary" type="submit"
-                                style="background: var(--purple) !important;margin-top: 0px;">send
-                        </button>
+                        <button class="btn btn-primary" type="submit" style="background: var(--purple) !important;margin-top: 0px;">Send</button>
                     </div>
                 </form>
             </section>
@@ -111,12 +124,48 @@
 </div>
 <script src="/js/jquery.min.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
-<script src="/js/Bootstrap-DateTime-Picker-1.js"></script>
-<script src="/js/Bootstrap-DateTime-Picker-2.js"></script>
-<script src="/js/Bootstrap-DateTime-Picker.js"></script>
 <script src="/js/fullcalendar/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="/js/theme.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA==" crossorigin="anonymous"></script>
+<script>
+
+    // Datetimepicker documentation: https://getdatepicker.com/5-4/Usage/
+
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar',
+            up: 'fas fa-arrow-up',
+            down: 'fas fa-arrow-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right',
+            today: 'far fa-calendar-check-o',
+            clear: 'far fa-trash',
+            close: 'far fa-times'
+        } });
+
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            format: 'L'
+        });
+
+        $('#datetimepicker2').datetimepicker({
+            format: 'LT'
+        });
+
+        $('#datetimepicker3').datetimepicker({
+            format: 'LT'
+        });
+
+        $("#datetimepicker2").on("change.datetimepicker", function (e) {
+            $('#datetimepicker3').datetimepicker('minDate', e.date);
+        });
+    });
+
+
+</script>
 </body>
 
 </html>

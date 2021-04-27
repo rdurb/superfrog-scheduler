@@ -51,7 +51,7 @@ public class WebRouterController {
     }
 
     @GetMapping("/access_denied")
-    String accessDenied(){
+    public String accessDenied(){
         return "accessDenied";
     }
 

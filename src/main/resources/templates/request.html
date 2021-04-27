@@ -76,9 +76,11 @@
                 <form action="#" th:action="@{/request/process}" th:object="${event}" method="post">
                     <div class="form-group">
 
-                        <input th:field="*{title}" class="form-control" type="text" name="event-title" placeholder="Event Title" style="margin-bottom: 15px;">
+                        <label style="margin-bottom: 0px;">Event Title</label>
+                        <input th:field="*{title}" class="form-control" type="text" name="event-title" style="margin-bottom: 15px;">
 
-                        <textarea th:field="*{description}" class="form-control" placeholder="Event Description" style="margin-bottom: 15px;" name="event-description"></textarea>
+                        <label style="margin-bottom: 0px;">Event Description</label>
+                        <textarea th:field="*{description}" class="form-control" style="margin-bottom: 15px;" name="event-description"></textarea>
 
                         <label style="margin-bottom: 0px;">Event Date</label>
                         <div class="date" id="datetimepicker" data-target-input="nearest" style="margin-bottom: 15px;">

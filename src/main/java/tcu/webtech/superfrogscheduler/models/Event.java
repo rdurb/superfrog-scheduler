@@ -1,9 +1,6 @@
 package tcu.webtech.superfrogscheduler.models;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "events")
@@ -17,7 +14,6 @@ public class Event {
 
     private String description;
 
-    //@DateTimeFormat(pattern = "dd/MM/yyyy h:mm a")
     private String date;
 
     private String startTime;

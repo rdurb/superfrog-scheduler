@@ -306,42 +306,42 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
-                            <div class="form-row">
-                                <div class="col" style="padding-bottom: 10px;">
+                        <form method="post" th:action="@{/spiritdirectortable/edit}" th:object="${editUser}">
+                            <div class="form-row" style="padding-bottom: 10px;">
+                                <div class="col">
                                     <label style="font-weight: bold;">ID: </label>
-                                    <label th:text="${superfrog.getId()}"></label>
+                                    <input th:name="id" th:value="${superfrog.getId()}" class="form-control" readonly />
                                 </div>
                             </div>
                             <div class="form-row" style="padding-bottom: 10px;">
                                 <div class="col">
                                     <label style="font-weight: bold;">First Name</label>
-                                    <input th:value="${superfrog.getFirstName()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                    <input th:name="firstName" th:value="${editUser.firstName != null} ? ${editUser.firstName} : ${superfrog.getFirstName()}" type="text" class="form-control" style="padding-top: 0px;" />
                                 </div>
                             </div>
                             <div class="form-row" style="padding-bottom: 10px;">
                                 <div class="col">
                                     <label style="font-weight: bold;">Last Name</label>
-                                    <input th:value="${superfrog.getLastName()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                    <input th:name="lastName" th:value="${editUser.lastName != null} ? ${editUser.lastName} : ${superfrog.getLastName()}" type="text" class="form-control" style="padding-top: 0px;" />
                                 </div>
                             </div>
                             <div class="form-row" style="padding-bottom: 10px;">
                                 <div class="col">
                                     <label style="font-weight: bold;">Email</label>
-                                    <input th:value="${superfrog.getEmail()}" type="text" class="form-control" style="padding-top: 0px;" />
+                                    <input th:name="email" th:value="${editUser.email != null} ? ${editUser.email} : ${superfrog.getEmail()}" type="text" class="form-control" style="padding-top: 0px;" />
                                 </div>
                             </div>
                             <div class="form-row" style="padding-bottom: 10px;">
                                 <div class="col">
                                     <label style="font-weight: bold;">Phone</label>
-                                    <input th:value="${superfrog.getPhoneNumber()}" type="text" class="form-control" />
+                                    <input th:name="phoneNumber" th:value="${editUser.phoneNumber != null} ? ${editUser.phoneNumber} : ${superfrog.getPhoneNumber()}" type="text" class="form-control" />
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
+                                <button class="btn btn-primary" type="submit" style="background: var(--purple);">Save</button>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" type="button" style="background: var(--purple);">Save</button>
                     </div>
                 </div>
             </div>

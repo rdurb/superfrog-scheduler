@@ -241,7 +241,7 @@
         <div role="dialog" tabindex="-1"
              class="modal show"
              id="edit-customer-modal"
-             style="max-width: 500px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);"
+             style="max-width: 500px; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); overflow-y: auto;"
              th:each="customer: ${customers}" th:attr="id=${'customerEditModal' + customer.getId()}">
             <div role="document">
                 <div class="modal-content">
@@ -296,7 +296,7 @@
 <!--        Edit SuperFrog Modal-->
         <div role="dialog" tabindex="-1"
              class="modal show"
-             style="max-width: 500px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);"
+             style="max-width: 500px; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); overflow-y: auto;"
              th:each="superfrog: ${superfrogs}" th:attr="id=${'superFrogEditModal' + superfrog.getId()}">
             <div role="document">
                 <div class="modal-content">

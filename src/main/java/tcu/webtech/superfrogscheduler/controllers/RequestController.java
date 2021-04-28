@@ -40,7 +40,7 @@ public class RequestController {
         User currentUserObj = userRepository.findByEmail(currentUser.getEmail());
 
         Event event = new Event(
-                currentUserObj.getId(),
+                currentUserObj.getEmail(),
                 newRequest.getTitle(),
                 newRequest.getDescription(),
                 newRequest.getDate(),

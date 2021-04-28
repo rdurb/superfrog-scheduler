@@ -50,7 +50,7 @@ public class DBDataInitializer implements CommandLineRunner {
         );
 
         eventRepository.save(new Event(
-                1L,
+                "riley.durbin@tcu.edu",
                 "Event 1",
                 "Event description",
                 "2021-04-27",
@@ -59,7 +59,7 @@ public class DBDataInitializer implements CommandLineRunner {
         ));
 
         eventRepository.save(new Event(
-                1L,
+                "riley.durbin@tcu.edu",
                 "Event 2",
                 "Event description",
                 "2021-04-28",
@@ -68,7 +68,7 @@ public class DBDataInitializer implements CommandLineRunner {
         ));
 
         eventRepository.save(new Event(
-                1L,
+                "riley.durbin@tcu.edu",
                 "Event 3",
                 "Event description",
                 "2021-04-29",

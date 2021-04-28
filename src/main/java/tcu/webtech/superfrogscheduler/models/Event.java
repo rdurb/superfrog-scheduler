@@ -23,14 +23,14 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
-    private Long requestingUserId;
+    private String requestingUserEmail;
 
     private Long assignedSuperFrogId;
 
     public Event() {}
 
-    public Event(Long requestingUserId, String title, String description, String date, String startTime, String endTime) {
-        this.requestingUserId = requestingUserId;
+    public Event(String requestingUserEmail, String title, String description, String date, String startTime, String endTime) {
+        this.requestingUserEmail = requestingUserEmail;
         this.title = title;
         this.description = description;
         this.date = date;
@@ -41,6 +41,10 @@ public class Event {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -75,12 +79,12 @@ public class Event {
         this.status = status;
     }
 
-    public Long getRequestingUserId() {
-        return requestingUserId;
+    public String getRequestingUserEmail() {
+        return requestingUserEmail;
     }
 
-    public void setRequestingUserId(Long requestingUserId) {
-        this.requestingUserId = requestingUserId;
+    public void setRequestingUserEmail(String requestingUserEmail) {
+        this.requestingUserEmail = requestingUserEmail;
     }
 
     public Long getAssignedSuperFrogId() {

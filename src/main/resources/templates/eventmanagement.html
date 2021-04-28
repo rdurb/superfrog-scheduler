@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Manage Users - SuperFrog Scheduler</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="/css/fcicons.css">
+    <link rel="stylesheet" href="/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="/css/Features-Boxed.css">
+    <link rel="stylesheet" href="/css/fullcalendar/main.css">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <nav class="navbar navbar-dark align-items-start visible sidebar sidebar-dark accordion bg-gradient-primary p-0"
+         id="nav-bar" style="background: var(--purple);">
+        <div class="container-fluid d-flex flex-column p-0"><a
+                class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+            <div class="sidebar-brand-icon"><i class="fas fa-frog"></i></div>
+        </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}"><i class="fa fa-home"></i><span>Home</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/calendar}"><i class="fa fa-calendar"></i><span>Calendar</span></a></li>
+                <li sec:authorize="hasAuthority('SPIRITDIRECTOR')" class="nav-item"><a class="nav-link" th:href="@{/spiritdirectortable}"><i class="fas fa-table"></i><span>Manage Users</span></a></li>
+                <li sec:authorize="hasAuthority('SPIRITDIRECTOR')" class="nav-item"><a class="nav-link active" th:href="@{/eventmanagement}"><i class="fas fa-table"></i><span>Manage Events</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}"><i class="far fa-user-circle"></i><span>Dashboard</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{tcuevent}"><i class="fas fa-user-circle"></i><span>Tcu Event</span></a></li>
+                <li class="nav-item"></li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content" style="margin-right: 5px;">
+            <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                <div class="container-fluid">
+                    <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i
+                            class="fas fa-bars"></i></button>
+                    <ul class="navbar-nav flex-nowrap ml-auto">
+                        <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link"
+                                                                            aria-expanded="false" data-toggle="dropdown"
+                                                                            href="#"><i class="fas fa-search"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in"
+                                 aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto navbar-search w-100">
+                                    <div class="input-group"><input class="bg-light form-control border-0 small"
+                                                                    type="text" placeholder="Search for ...">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary py-0" type="button"><i
+                                                    class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <div class="d-none d-sm-block topbar-divider"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <div class="nav-item dropdown no-arrow">
+                                <a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">
+                                    <span class="d-none d-lg-inline mr-2 text-gray-600 small" th:text="${currentUser.getFirstName() + ' ' + currentUser.getLastName()}"></span>
+                                    <img class="border rounded-circle img-profile" src="/img/profilepicture.png"></a>
+                                <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">
+                                    <a class="dropdown-item" th:href="@{/profile}">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Profile</a>
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <a class="dropdown-item" th:href="@{/logout}">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <h3 class="text-dark mb-1">Pending Events</h3>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                            <table class="table my-0" id="dataTable">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Creator</th>
+                                    <th class="text-center">Operation</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="event: ${pendingEvents}">
+                                    <td th:text="${event.id}"></td>
+                                    <td th:text="${event.title}"></td>
+                                    <td th:text="${event.date}"></td>
+                                    <td th:text="${event.startTime}"></td>
+                                    <td th:text="${event.endTime}"></td>
+                                    <td th:text="${event.requestingUserEmail}"></td>
+                                    <td class="text-center d-lg-flex justify-content-lg-center">
+                                        <a th:href="@{/eventmanagement/reject/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--danger);">Reject</button></a>
+                                        <a th:href="@{/eventmanagement/approve/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--green);">Approve</button></a>
+                                    </td>
+                                </tr>
+                                <tr></tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td><strong>ID</strong></td>
+                                    <td><strong>Title</strong></td>
+                                    <td><strong>Date</strong></td>
+                                    <td><strong>Start Time</strong></td>
+                                    <td><strong>End Time</strong></td>
+                                    <td><strong>Creator</strong></td>
+                                    <td class="text-center"><strong>Operation</strong></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <h3 class="text-dark mb-1">Approved Events</h3>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info">
+                            <table class="table my-0" id="dataTable">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Creator</th>
+                                    <th class="text-center">Operation</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="event: ${approvedEvents}">
+                                    <td th:text="${event.id}"></td>
+                                    <td th:text="${event.title}"></td>
+                                    <td th:text="${event.date}"></td>
+                                    <td th:text="${event.startTime}"></td>
+                                    <td th:text="${event.endTime}"></td>
+                                    <td th:text="${event.requestingUserEmail}"></td>
+                                    <td class="text-center d-lg-flex justify-content-lg-center">
+                                        <button class="btn btn-primary"
+                                                type="button"
+                                                style="margin-left: 0px;margin-right: 5px;"
+                                                data-toggle="modal"
+                                                th:attr="data-target=${'#eventEditModal' + event.id}"
+                                                data-row="${event}"
+                                        >Edit</button>
+                                        <button class="btn btn-primary" type="button" style="margin-left: 0px;margin-right: 5px;background: var(--purple);">Assign</button>
+                                        <a th:href="@{/eventmanagement/finish/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-left: 0px;margin-right: 5px;background: var(--green);">Finished</button></a>
+                                    </td>
+                                </tr>
+                                <tr></tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td><strong>ID</strong></td>
+                                    <td><strong>Title</strong></td>
+                                    <td><strong>Date</strong></td>
+                                    <td><strong>Start Time</strong></td>
+                                    <td><strong>End Time</strong></td>
+                                    <td><strong>Creator</strong></td>
+                                    <td class="text-center"><strong>Operation</strong></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <h3 class="text-dark mb-1">Finished Events</h3>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
+                            <table class="table my-0" id="dataTable">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Creator</th>
+                                    <th>SuperFrog</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="event: ${finishedEvents}">
+                                    <td th:text="${event.id}">1</td>
+                                    <td th:text="${event.title}">Mark&#39;s Birthday</td>
+                                    <td th:text="${event.date}">5-4-2021</td>
+                                    <td th:text="${event.startTime}">12:00 PM</td>
+                                    <td th:text="${event.endTime}">1:00 PM</td>
+                                    <td th:text="${event.requestingUserEmail}">mark.mcdaniel.tcu.edu</td>
+                                    <td th:text="${event.assignedSuperFrogId}">superfrog@gmail.com</td>
+                                </tr>
+                                <tr></tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td><strong>ID</strong></td>
+                                    <td><strong>Title</strong></td>
+                                    <td><strong>Date</strong></td>
+                                    <td><strong>Start Time</strong></td>
+                                    <td><strong>End Time</strong></td>
+                                    <td><strong>Creator</strong></td>
+                                    <td><strong>SuperFrog</strong></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!--            Edit Event Modal-->
+            <div role="dialog" tabindex="-1"
+                 class="modal show"
+                 id="edit-customer-modal"
+                 style="max-width: 500px; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); overflow-y: auto;"
+                 th:each="event: ${approvedEvents}" th:attr="id=${'eventEditModal' + event.getId()}">
+                <div role="document">
+                    <div class="modal-content">
+                        <div class="modal-header d-lg-flex">
+                            <h4 class="modal-title d-lg-flex">Edit Event</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" th:action="@{/eventmanagement/editEvent}" th:object="${editEvent}">
+                                <div class="form-row" style="padding-bottom: 10px;">
+                                    <div class="col">
+                                        <label style="font-weight: bold;">ID: </label>
+                                        <input th:name="id" th:value="${event.getId()}" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-row" style="padding-bottom: 10px;">
+                                    <div class="col">
+                                        <label style="font-weight: bold;">Title</label>
+                                        <input th:name="title"
+                                               th:value="${editEvent.title != null} ? ${editEvent.title} : ${event.title}"
+                                               type="text"
+                                               class="form-control"
+                                               style="padding-top: 0px;" />
+                                    </div>
+                                </div>
+                                <div class="form-row" style="padding-bottom: 10px;">
+                                    <div class="col">
+                                        <label style="font-weight: bold;">Description</label>
+                                        <input th:name="description"
+                                               th:value="${editEvent.description != null} ? ${editEvent.description} : ${event.description}"
+                                               type="textarea"
+                                               class="form-control"
+                                               style="padding-top: 0px;" />
+                                    </div>
+                                </div>
+                                <div class="form-row" style="padding-bottom: 10px;">
+                                    <div class="col">
+                                        <label style="font-weight: bold;">Date</label>
+                                        <input th:name="date"
+                                               th:value="${editEvent.date != null} ? ${editEvent.date} : ${event.date}"
+                                               type="text"
+                                               class="form-control"
+                                               style="padding-top: 0px;" />
+                                    </div>
+                                </div>
+                                <div class="form-row" style="padding-bottom: 10px;">
+                                    <div class="col">
+                                        <label style="font-weight: bold;">Start Time</label>
+                                        <input th:name="startTime"
+                                               th:value="${editEvent.startTime != null} ? ${editEvent.startTime} : ${event.startTime}"
+                                               type="text"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-row" style="padding-bottom: 10px;">
+                                    <div class="col">
+                                        <label style="font-weight: bold;">End Time</label>
+                                        <input th:name="endTime"
+                                               th:value="${editEvent.endTime != null} ? ${editEvent.endTime} : ${event.endTime}"
+                                               type="text"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-row" style="padding-bottom: 10px;">
+                                    <div class="col">
+                                        <label style="font-weight: bold;">Creator</label>
+                                        <input th:name="requestingUserEmail"
+                                               th:value="${editEvent.requestingUserEmail != null} ? ${editEvent.requestingUserEmail} : ${event.requestingUserEmail}"
+                                               type="text"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-primary" type="submit" style="background: var(--purple);">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!--            Assign SuperFrog Modal-->
+
+        <!--        Footer-->
+        <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © Brand 2021</span></div>
+            </div>
+        </footer>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+<script src="/js/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/js/fullcalendar/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script src="/js/theme.js"></script>
+<script>
+
+</script>
+</body>
+
+</html>

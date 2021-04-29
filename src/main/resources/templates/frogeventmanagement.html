@@ -153,12 +153,12 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="event: ${approvedEvents}">
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.id}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.title}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.date}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.startTime}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.endTime}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.requestingUserEmail}"></td>
+                                    <td  th:text="${event.id}"></td>
+                                    <td  th:text="${event.title}"></td>
+                                    <td  th:text="${event.date}"></td>
+                                    <td  th:text="${event.startTime}"></td>
+                                    <td  th:text="${event.endTime}"></td>
+                                    <td  th:text="${event.requestingUserEmail}"></td>
                                     <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" class="text-center d-lg-flex justify-content-lg-center">
                                         <button class="btn btn-primary"
                                                 type="button"

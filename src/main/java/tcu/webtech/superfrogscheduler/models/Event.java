@@ -25,7 +25,7 @@ public class Event {
 
     private String requestingUserEmail;
 
-    private Long assignedSuperFrogId;
+    private String assignedSuperFrogEmail;
 
     public Event() {}
 
@@ -87,12 +87,12 @@ public class Event {
         this.requestingUserEmail = requestingUserEmail;
     }
 
-    public Long getAssignedSuperFrogId() {
-        return assignedSuperFrogId;
+    public String getAssignedSuperFrogEmail() {
+        return assignedSuperFrogEmail;
     }
 
-    public void setAssignedSuperFrogId(Long assignedSuperFrogId) {
-        this.assignedSuperFrogId = assignedSuperFrogId;
+    public void setAssignedSuperFrogEmail(String assignedSuperFrogEmail) {
+        this.assignedSuperFrogEmail = assignedSuperFrogEmail;
     }
 
     public String getDate() {

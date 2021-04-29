@@ -41,6 +41,15 @@ public class DBDataInitializer implements CommandLineRunner {
         );
 
         userRepository.save(new User(
+                "superfrog2@gmail.com",
+                passwordEncoder.encode("password"),
+                "Another",
+                "SuperFrog",
+                "555-555-5555",
+                "SUPERFROG")
+        );
+
+        userRepository.save(new User(
                 "spiritdirector@gmail.com",
                 passwordEncoder.encode("password"),
                 "Sample",

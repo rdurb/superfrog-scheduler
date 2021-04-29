@@ -33,7 +33,7 @@
             });
 
             // Add the events to the calendar
-            var allEvents = [[${allEvents}]];
+            var allEvents = [[${allApprovedEvents}]];
             for (var i = 0; i < allEvents.length; i++) {
                 var event = allEvents[i];
                 calendar.addEvent({
@@ -43,8 +43,6 @@
                     allDay: true
                 });
             }
-
-            console.log(calendar.getEvents());
 
             calendar.render();
         });

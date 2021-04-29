@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import tcu.webtech.superfrogscheduler.models.Event;
 import tcu.webtech.superfrogscheduler.models.EventStatus;
+import tcu.webtech.superfrogscheduler.models.User;
 import tcu.webtech.superfrogscheduler.repositories.EventRepository;
 import tcu.webtech.superfrogscheduler.repositories.UserRepository;
 import tcu.webtech.superfrogscheduler.services.UserDetailsImpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class EventManagementController {
@@ -35,8 +36,14 @@ public class EventManagementController {
         List<Event> allApprovedEvents = eventRepository.findAllByStatus(EventStatus.APPROVED);
         List<Event> allFinishedEvents = eventRepository.findAllByStatus(EventStatus.FINISHED);
 
+        List<User> allActiveSuperFrogs = userRepository.findAllByRole("SUPERFROG")
+                .stream()
+                .filter(user -> user.getIsActive())
+                .collect(Collectors.toList());
+
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("editEvent", new Event());
+        model.addAttribute("activeSuperFrogs", allActiveSuperFrogs);
         model.addAttribute("pendingEvents", allPendingEvents);
         model.addAttribute("approvedEvents", allApprovedEvents);
         model.addAttribute("finishedEvents", allFinishedEvents);
@@ -73,8 +80,6 @@ public class EventManagementController {
 
     @PostMapping("/eventmanagement/editEvent")
     public String editEvent(@ModelAttribute("editEvent") Event event) {
-
-        System.out.println(event.getId());
         Event updatedEvent = eventRepository.getOne(event.getId());
         updatedEvent.setTitle(event.getTitle());
         updatedEvent.setDescription(event.getDescription());
@@ -84,6 +89,18 @@ public class EventManagementController {
         updatedEvent.setRequestingUserEmail(event.getRequestingUserEmail());
 
         eventRepository.save(updatedEvent);
+
+        return "redirect:/eventmanagement";
+    }
+
+    @PostMapping("/eventmanagement/assign/{eventId}/{superfrogId}")
+    public String assignSuperFrogToEvent(@PathVariable("eventId") Long eventId, @PathVariable("superfrogId") Long superfrogId) {
+        Event event = eventRepository.getOne(eventId);
+        User superfrog = userRepository.getOne(superfrogId);
+
+        event.setAssignedSuperFrogEmail(superfrog.getEmail());
+
+        eventRepository.save(event);
 
         return "redirect:/eventmanagement";
     }

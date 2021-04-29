@@ -33,16 +33,20 @@ public class UserDetailsImpl implements UserDetails {
     @NotBlank
     private String phoneNumber;
 
+    @NotBlank
+    private boolean isActive;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String email, String password, String firstName, String lastName, String phoneNumber, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(String email, String password, String firstName, String lastName, String phoneNumber, Collection<? extends GrantedAuthority> authorities, boolean isActive) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.authorities = authorities;
+        this.isActive = isActive;
     }
 
     @Override
@@ -83,7 +87,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.isActive;
     }
 
     public Long getId() {

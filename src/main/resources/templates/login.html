@@ -34,7 +34,7 @@
                                 </div>
                                 <form class="user" th:action="@{/login}" method="post">
                                     <div th:if="${param.error}" style="color: red">
-                                        Invalid username or password.
+                                        Unable to login. Please make sure your credentials are correct and your account is active.
                                     </div>
                                     <div th:if="${param.logout}">
                                         You have been logged out.

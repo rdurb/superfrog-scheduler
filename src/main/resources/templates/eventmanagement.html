@@ -172,7 +172,10 @@
                                                 style="margin-left: 0px;margin-right: 5px;background: var(--purple);"
                                                 data-toggle="modal"
                                                 th:attr="data-target=${'#assignSuperFrogModal' + event.id}">Assign</button>
-                                        <a th:href="@{/eventmanagement/finish/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-left: 0px;margin-right: 5px;background: var(--green);">Finished</button></a>
+                                        <a th:if="${!event.assignedSuperFrogEmail.equals('')}"
+                                           th:href="@{/eventmanagement/finish/__${event.id}__}">
+                                            <button class="btn btn-primary" type="button" style="margin-left: 0px;margin-right: 5px;background: var(--green);">Finished</button>
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr></tr>

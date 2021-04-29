@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Profile - SuperFrog Scheduler</title>
+    <title>User Password Change - SuperFrog Scheduler</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
@@ -97,44 +97,24 @@
                                         <p class="text-primary m-0 font-weight-bold">User Information</p>
                                     </div>
                                     <div class="card-body">
-                                        <form class="user" th:action="@{/profile/update}" method="post">
+                                        <form  th:object="${editUser}" th:action="@{/profile/changepwd/{email}(email=${user.getEmail()})}" th:method="post" >
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <div class="form-group"><label>
-                                                        <strong>Email Address</strong></label>
-                                                        <span type="email" class="form-control" th:text="${user.getUsername()}" readonly />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="col">
-                                                    <div class="form-group">
-                                                        <label><strong>First Name</strong></label>
-                                                        <span class="form-control" th:text="${user.getFirstName()}"  readonly/>
-                                                    </div>
+                                                    <label><strong>Password</strong></label>
+                                                    <div class="form-group"><input class="form-control form-control-user"
+                                                                                   type="password" id="exampleInputPassword"
+                                                                                   placeholder="Password" name="password" th:name = "password"></div>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="form-group">
-                                                        <label><strong>Last Name</strong></label>
-                                                        <span class="form-control" th:text="${user.getLastName()}" readonly/>
-                                                    </div>
+                                                        <label><strong>Retype Password</strong></label>
+                                                    <div><input class="form-control form-control-user" placeholder="Retype Password" ></div>
                                                 </div>
-
                                             </div>
                                             <div class="form-group">
-                                                <button class="btn btn-primary"
+                                                <button class="btn btn-primary btn-sm"
                                                         type="submit"
                                                         style="background: var(--purple);">
-                                                    Update User Info
-                                                </button>
-                                            </div>
-                                        </form>
-                                        <form class="user" th:action="@{/profile/changepwd}" method="post">
-                                            <div class="form-group">
-                                                <button class="btn btn-primary"
-                                                        type="submit"
-                                                        style="background: var(--purple);">
-                                                    Change password
+                                                    Update
                                                 </button>
                                             </div>
                                         </form>

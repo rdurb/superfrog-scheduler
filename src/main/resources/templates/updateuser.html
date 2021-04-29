@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Profile - SuperFrog Scheduler</title>
+    <title>Update Profile - SuperFrog Scheduler</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
@@ -97,44 +97,32 @@
                                         <p class="text-primary m-0 font-weight-bold">User Information</p>
                                     </div>
                                     <div class="card-body">
-                                        <form class="user" th:action="@{/profile/update}" method="post">
-                                            <div class="form-row">
-                                                <div class="col">
-                                                    <div class="form-group"><label>
-                                                        <strong>Email Address</strong></label>
-                                                        <span type="email" class="form-control" th:text="${user.getUsername()}" readonly />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <form  th:object="${editUser}" th:action="@{/profile/update/{email}(email=${user.getEmail()})}" th:method="post" >
                                             <div class="form-row">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <label><strong>First Name</strong></label>
-                                                        <span class="form-control" th:text="${user.getFirstName()}"  readonly/>
+                                                        <label><strong>Update First Name</strong></label>
+                                                        <input th:name="firstName" type="text" class="form-control" id="first_name" th:value="${user.getFirstName()}" name="first_name" />
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <label><strong>Last Name</strong></label>
-                                                        <span class="form-control" th:text="${user.getLastName()}" readonly/>
+                                                        <label><strong>Update Last Name</strong></label>
+                                                        <input th:name="lastName" type="text" class="form-control" id="last_name" th:value="${user.getLastName()}" name="last_name" />
                                                     </div>
                                                 </div>
-
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label><strong>Update Phone Number</strong></label>
+                                                        <input th:name="phoneNumber" type="text" class="form-control" id="phoneNumber" th:value="${user.getPhoneNumber()}" name="phoneNumber" />
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="form-group">
-                                                <button class="btn btn-primary"
+                                                <button class="btn btn-primary btn-sm"
                                                         type="submit"
                                                         style="background: var(--purple);">
-                                                    Update User Info
-                                                </button>
-                                            </div>
-                                        </form>
-                                        <form class="user" th:action="@{/profile/changepwd}" method="post">
-                                            <div class="form-group">
-                                                <button class="btn btn-primary"
-                                                        type="submit"
-                                                        style="background: var(--purple);">
-                                                    Change password
+                                                    Update
                                                 </button>
                                             </div>
                                         </form>

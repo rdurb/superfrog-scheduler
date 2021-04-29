@@ -105,16 +105,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="event: ${pendingEvents}">
-                                    <td th:text="${event.id}"></td>
-                                    <td th:text="${event.title}"></td>
-                                    <td th:text="${event.date}"></td>
-                                    <td th:text="${event.startTime}"></td>
-                                    <td th:text="${event.endTime}"></td>
-                                    <td th:text="${event.requestingUserEmail}"></td>
-                                    <td class="text-center d-lg-flex justify-content-lg-center">
-                                        <a th:href="@{/eventmanagement/reject/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--danger);">Reject</button></a>
-                                        <a th:href="@{/eventmanagement/approve/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--green);">Approve</button></a>
+                                <tr th:each="event, status: ${pendingEvents}">
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.id}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.title}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.date}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.startTime}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.endTime}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.requestingUserEmail}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" class="text-center d-lg-flex justify-content-lg-center">
+                                        <a th:href="@{/frogeventmanagement/reject/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--danger);">Reject</button></a>
+                                        <a th:href="@{/frogeventmanagement/approve/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--green);">Approve</button></a>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -153,13 +153,13 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="event: ${approvedEvents}">
-                                    <td th:text="${event.id}"></td>
-                                    <td th:text="${event.title}"></td>
-                                    <td th:text="${event.date}"></td>
-                                    <td th:text="${event.startTime}"></td>
-                                    <td th:text="${event.endTime}"></td>
-                                    <td th:text="${event.requestingUserEmail}"></td>
-                                    <td class="text-center d-lg-flex justify-content-lg-center">
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.id}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.title}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.date}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.startTime}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.endTime}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.requestingUserEmail}"></td>
+                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" class="text-center d-lg-flex justify-content-lg-center">
                                         <button class="btn btn-primary"
                                                 type="button"
                                                 style="margin-left: 0px;margin-right: 5px;"
@@ -167,12 +167,7 @@
                                                 th:attr="data-target=${'#eventEditModal' + event.id}"
                                                 data-row="${event}"
                                         >Edit</button>
-                                        <button class="btn btn-primary"
-                                                type="button"
-                                                style="margin-left: 0px;margin-right: 5px;background: var(--purple);"
-                                                data-toggle="modal"
-                                                th:attr="data-target=${'#assignSuperFrogModal' + event.id}">Assign</button>
-                                        <a th:href="@{/eventmanagement/finish/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-left: 0px;margin-right: 5px;background: var(--green);">Finished</button></a>
+                                        <a th:href="@{/frogeventmanagement/finish/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-left: 0px;margin-right: 5px;background: var(--green);">Finished</button></a>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -252,7 +247,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" th:action="@{/eventmanagement/editEvent}" th:object="${editEvent}">
+                            <form method="post" th:action="@{/frogeventmanagement/editEvent}" th:object="${editEvent}">
                                 <div class="form-row" style="padding-bottom: 10px;">
                                     <div class="col">
                                         <label style="font-weight: bold;">ID: </label>
@@ -326,49 +321,6 @@
                 </div>
             </div>
 
-<!--            Assign SuperFrog Modal-->
-            <div role="dialog"
-                 tabindex="-1"
-                 class="modal fade show"
-                 style="max-width: 500px; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); overflow-y: auto;"
-                 th:each="event: ${approvedEvents}"
-                 th:attr="id=${'assignSuperFrogModal' + event.id}">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Assign a SuperFrog</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th class="text-center">Assign</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="superfrog: ${activeSuperFrogs}">
-                                        <td th:text="${superfrog.id}"></td>
-                                        <td th:text="${superfrog.firstName}"></td>
-                                        <td th:text="${superfrog.lastName}"></td>
-                                        <td class="text-center">
-                                            <form th:action="@{/eventmanagement/assign/__${event.id}__/__${superfrog.id}__}" method="post">
-                                                <button class="btn btn-primary" type="submit" style="background: var(--purple);">Assign</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    <tr></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         <!--        Footer-->
         <footer class="bg-white sticky-footer">
             <div class="container my-auto">

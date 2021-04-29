@@ -106,12 +106,12 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="event, status: ${pendingEvents}">
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.id}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.title}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.date}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.startTime}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.endTime}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.requestingUserEmail}"></td>
+                                    <td th:text="${event.id}"></td>
+                                    <td th:text="${event.title}"></td>
+                                    <td th:text="${event.date}"></td>
+                                    <td th:text="${event.startTime}"></td>
+                                    <td th:text="${event.endTime}"></td>
+                                    <td th:text="${event.requestingUserEmail}"></td>
                                     <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" class="text-center d-lg-flex justify-content-lg-center">
                                         <a th:href="@{/frogeventmanagement/reject/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--danger);">Reject</button></a>
                                         <a th:href="@{/frogeventmanagement/approve/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--green);">Approve</button></a>
@@ -206,13 +206,13 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="event: ${finishedEvents}">
-                                        <td th:text="${event.id}"></td>
-                                        <td th:text="${event.title}"></td>
-                                        <td th:text="${event.date}"></td>
-                                        <td th:text="${event.startTime}"></td>
-                                        <td th:text="${event.endTime}"></td>
-                                        <td th:text="${event.requestingUserEmail}"></td>
-                                        <td th:text="${event.assignedSuperFrogEmail}"></td>
+                                        <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.id}"></td>
+                                        <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.title}"></td>
+                                        <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.date}"></td>
+                                        <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.startTime}"></td>
+                                        <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.endTime}"></td>
+                                        <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.requestingUserEmail}"></td>
+                                        <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.assignedSuperFrogEmail}"></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>

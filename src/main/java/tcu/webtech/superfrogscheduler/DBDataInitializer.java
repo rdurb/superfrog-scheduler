@@ -22,67 +22,74 @@ public class DBDataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        userRepository.save(new User(
+        loadDefaultData();
+    }
+
+    public void loadDefaultData() {
+        User customer = new User(
                 "customer@gmail.com",
                 passwordEncoder.encode("password"),
                 "Sample",
                 "Customer",
                 "555-555-5555",
-                "CUSTOMER")
-        );
+                "CUSTOMER");
 
-        userRepository.save(new User(
+        User superfrog = new User(
                 "superfrog@gmail.com",
                 passwordEncoder.encode("password"),
                 "Sample",
                 "Superfrog",
                 "555-555-5555",
-                "SUPERFROG")
-        );
+                "SUPERFROG");
 
-        userRepository.save(new User(
+        User superfrog2 = new User(
                 "superfrog2@gmail.com",
                 passwordEncoder.encode("password"),
                 "Another",
                 "SuperFrog",
                 "555-555-5555",
-                "SUPERFROG")
-        );
+                "SUPERFROG");
 
-        userRepository.save(new User(
+        User spiritdirector = new User(
                 "spiritdirector@gmail.com",
                 passwordEncoder.encode("password"),
                 "Sample",
                 "SpiritDirector",
                 "555-555-5555",
-                "SPIRITDIRECTOR")
-        );
+                "SPIRITDIRECTOR");
 
-        eventRepository.save(new Event(
+        // Save the users
+        userRepository.save(customer);
+        userRepository.save(superfrog);
+        userRepository.save(superfrog2);
+        userRepository.save(spiritdirector);
+
+        Event event1 = new Event(
                 "riley.durbin@tcu.edu",
                 "Event 1",
                 "Event description",
                 "2021-04-27",
                 "12:00 PM",
-                "1:00 PM"
-        ));
+                "1:00 PM");
 
-        eventRepository.save(new Event(
+        Event event2 = new Event(
                 "riley.durbin@tcu.edu",
                 "Event 2",
                 "Event description",
                 "2021-04-28",
                 "12:00 PM",
-                "1:00 PM"
-        ));
+                "1:00 PM");
 
-        eventRepository.save(new Event(
+        Event event3 = new Event(
                 "riley.durbin@tcu.edu",
                 "Event 3",
                 "Event description",
                 "2021-04-29",
                 "12:00 PM",
-                "1:00 PM"
-        ));
+                "1:00 PM");
+
+        eventRepository.save(event1);
+        eventRepository.save(event2);
+        eventRepository.save(event3);
     }
 }

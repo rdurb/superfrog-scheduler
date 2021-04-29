@@ -37,6 +37,7 @@ public class Event {
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = EventStatus.PENDING;
+        this.assignedSuperFrogEmail = "";
     }
 
     public Long getId() {

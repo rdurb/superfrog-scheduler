@@ -88,7 +88,7 @@
             </nav>
 
             <div class="container-fluid">
-                <h3 class="text-dark mb-1">Pending Events</h3>
+                <h3 class="text-dark mb-1">Available Events</h3>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
@@ -105,16 +105,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="event, status: ${pendingEvents}">
+                                <tr th:each="event: ${availableEvents}">
                                     <td th:text="${event.id}"></td>
                                     <td th:text="${event.title}"></td>
                                     <td th:text="${event.date}"></td>
                                     <td th:text="${event.startTime}"></td>
                                     <td th:text="${event.endTime}"></td>
                                     <td th:text="${event.requestingUserEmail}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" class="text-center d-lg-flex justify-content-lg-center">
-                                        <a th:href="@{/frogeventmanagement/reject/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--danger);">Reject</button></a>
-                                        <a th:href="@{/frogeventmanagement/approve/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-right: 5px;background: var(--green);">Approve</button></a>
+                                    <td class="text-center d-lg-flex justify-content-lg-center">
+                                        <form th:action="@{/frogeventmanagement/takeOwnership/__${event.id}__}" method="post">
+                                            <button class="btn btn-primary" type="submit" style="margin-right: 5px;background: var(--purple);">Take Ownership</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -134,11 +135,13 @@
                         </div>
                     </div>
                 </div>
+
                 <hr />
-                <h3 class="text-dark mb-1">Approved Events</h3>
+
+                <h3 class="text-dark mb-1">My Upcoming Events</h3>
                 <div class="card shadow">
                     <div class="card-body">
-                        <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info">
+                        <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
                             <table class="table my-0" id="dataTable">
                                 <thead>
                                 <tr>
@@ -152,22 +155,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="event: ${approvedEvents}">
-                                    <td  th:text="${event.id}"></td>
-                                    <td  th:text="${event.title}"></td>
-                                    <td  th:text="${event.date}"></td>
-                                    <td  th:text="${event.startTime}"></td>
-                                    <td  th:text="${event.endTime}"></td>
-                                    <td  th:text="${event.requestingUserEmail}"></td>
-                                    <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" class="text-center d-lg-flex justify-content-lg-center">
-                                        <button class="btn btn-primary"
-                                                type="button"
-                                                style="margin-left: 0px;margin-right: 5px;"
-                                                data-toggle="modal"
-                                                th:attr="data-target=${'#eventEditModal' + event.id}"
-                                                data-row="${event}"
-                                        >Edit</button>
-                                        <a th:href="@{/frogeventmanagement/finish/__${event.id}__}"><button class="btn btn-primary" type="button" style="margin-left: 0px;margin-right: 5px;background: var(--green);">Finished</button></a>
+                                <tr th:each="event: ${upcomingEvents}">
+                                    <td th:text="${event.id}"></td>
+                                    <td th:text="${event.title}"></td>
+                                    <td th:text="${event.date}"></td>
+                                    <td th:text="${event.startTime}"></td>
+                                    <td th:text="${event.endTime}"></td>
+                                    <td th:text="${event.requestingUserEmail}"></td>
+                                    <td class="text-center d-lg-flex justify-content-lg-center">
+                                        <a th:href="@{/frogeventmanagement/finish/__${event.id}__}">
+                                            <button class="btn btn-primary" type="button" style="margin-left: 0px;margin-right: 5px;background: var(--green);">Finished</button>
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -187,8 +185,10 @@
                         </div>
                     </div>
                 </div>
+
                 <hr />
-                <h3 class="text-dark mb-1">Finished Events</h3>
+
+                <h3 class="text-dark mb-1">My Completed Events</h3>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
@@ -201,7 +201,6 @@
                                         <th>Start Time</th>
                                         <th>End Time</th>
                                         <th>Creator</th>
-                                        <th>SuperFrog</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -212,7 +211,6 @@
                                         <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.startTime}"></td>
                                         <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.endTime}"></td>
                                         <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.requestingUserEmail}"></td>
-                                        <td th:if="${event.assignedSuperFrogEmail == currentUser.getEmail()}" th:text="${event.assignedSuperFrogEmail}"></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -223,99 +221,9 @@
                                         <td><strong>Start Time</strong></td>
                                         <td><strong>End Time</strong></td>
                                         <td><strong>Creator</strong></td>
-                                        <td><strong>SuperFrog</strong></td>
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-<!--            Edit Event Modal-->
-            <div role="dialog" tabindex="-1"
-                 class="modal show"
-                 id="edit-customer-modal"
-                 style="max-width: 500px; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); overflow-y: auto;"
-                 th:each="event: ${approvedEvents}" th:attr="id=${'eventEditModal' + event.getId()}">
-                <div role="document">
-                    <div class="modal-content">
-                        <div class="modal-header d-lg-flex">
-                            <h4 class="modal-title d-lg-flex">Edit Event</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="post" th:action="@{/frogeventmanagement/editEvent}" th:object="${editEvent}">
-                                <div class="form-row" style="padding-bottom: 10px;">
-                                    <div class="col">
-                                        <label style="font-weight: bold;">ID: </label>
-                                        <input th:name="id" th:value="${event.getId()}" class="form-control" readonly />
-                                    </div>
-                                </div>
-                                <div class="form-row" style="padding-bottom: 10px;">
-                                    <div class="col">
-                                        <label style="font-weight: bold;">Title</label>
-                                        <input th:name="title"
-                                               th:value="${editEvent.title != null} ? ${editEvent.title} : ${event.title}"
-                                               type="text"
-                                               class="form-control"
-                                               style="padding-top: 0px;" />
-                                    </div>
-                                </div>
-                                <div class="form-row" style="padding-bottom: 10px;">
-                                    <div class="col">
-                                        <label style="font-weight: bold;">Description</label>
-                                        <input th:name="description"
-                                               th:value="${editEvent.description != null} ? ${editEvent.description} : ${event.description}"
-                                               type="textarea"
-                                               class="form-control"
-                                               style="padding-top: 0px;" />
-                                    </div>
-                                </div>
-                                <div class="form-row" style="padding-bottom: 10px;">
-                                    <div class="col">
-                                        <label style="font-weight: bold;">Date</label>
-                                        <input th:name="date"
-                                               th:value="${editEvent.date != null} ? ${editEvent.date} : ${event.date}"
-                                               type="text"
-                                               class="form-control"
-                                               style="padding-top: 0px;" />
-                                    </div>
-                                </div>
-                                <div class="form-row" style="padding-bottom: 10px;">
-                                    <div class="col">
-                                        <label style="font-weight: bold;">Start Time</label>
-                                        <input th:name="startTime"
-                                               th:value="${editEvent.startTime != null} ? ${editEvent.startTime} : ${event.startTime}"
-                                               type="text"
-                                               class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-row" style="padding-bottom: 10px;">
-                                    <div class="col">
-                                        <label style="font-weight: bold;">End Time</label>
-                                        <input th:name="endTime"
-                                               th:value="${editEvent.endTime != null} ? ${editEvent.endTime} : ${event.endTime}"
-                                               type="text"
-                                               class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-row" style="padding-bottom: 10px;">
-                                    <div class="col">
-                                        <label style="font-weight: bold;">Creator</label>
-                                        <input th:name="requestingUserEmail"
-                                               th:value="${editEvent.requestingUserEmail != null} ? ${editEvent.requestingUserEmail} : ${event.requestingUserEmail}"
-                                               type="text"
-                                               class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
-                                    <button class="btn btn-primary" type="submit" style="background: var(--purple);">Save</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>

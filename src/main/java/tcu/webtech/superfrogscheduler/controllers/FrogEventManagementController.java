@@ -31,39 +31,41 @@ public class FrogEventManagementController {
     public String eventManagement(Model model, Authentication authentication) {
         UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
 
-        List<Event> allPendingEvents = eventRepository.findAllByStatus(EventStatus.PENDING);
-        List<Event> allApprovedEvents = eventRepository.findAllByStatus(EventStatus.APPROVED);
-        List<Event> allFinishedEvents = eventRepository.findAllByStatus(EventStatus.FINISHED);
-
-        List<User> allActiveSuperFrogs = userRepository.findAllByRole("SUPERFROG")
+        // Get a list of all events that are approved but have not been assigned a SuperFrog yet
+        List<Event> allAvailableEvents = eventRepository.findAllByStatus(EventStatus.APPROVED)
                 .stream()
-                .filter(user -> user.getIsActive())
+                .filter(event -> event.getAssignedSuperFrogEmail().equals(""))
+                .collect(Collectors.toList());
+
+        // Upcoming approved events that are assigned to the superfrog
+        List<Event> myUpcomingEvents = eventRepository.findAllByStatus(EventStatus.APPROVED)
+                .stream()
+                .filter(event -> event.getAssignedSuperFrogEmail().equals(currentUser.getEmail()))
+                .collect(Collectors.toList());
+
+        // Get a list of all events that were completed by the current superfrog
+        List<Event> allFinishedEvents = eventRepository.findAllByStatus(EventStatus.FINISHED)
+                .stream()
+                .filter(event -> event.getAssignedSuperFrogEmail().equals(currentUser.getEmail()))
                 .collect(Collectors.toList());
 
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("editEvent", new Event());
-        model.addAttribute("activeSuperFrogs", allActiveSuperFrogs);
-        model.addAttribute("pendingEvents", allPendingEvents);
-        model.addAttribute("approvedEvents", allApprovedEvents);
+        model.addAttribute("availableEvents", allAvailableEvents);
+        model.addAttribute("upcomingEvents", myUpcomingEvents);
         model.addAttribute("finishedEvents", allFinishedEvents);
 
         return "frogeventmanagement";
     }
 
-    @RequestMapping("/frogeventmanagement/approve/{eventId}")
-    public String approveEvent(@PathVariable("eventId") Long eventId) {
-        Event eventToApprove = eventRepository.getOne(eventId);
-        eventToApprove.setStatus(EventStatus.APPROVED);
-        eventRepository.save(eventToApprove);
+    @PostMapping("/frogeventmanagement/takeOwnership/{eventId}")
+    public String approveEvent(@PathVariable("eventId") Long eventId, Authentication authentication) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
 
-        return "redirect:/frogeventmanagement";
-    }
+        Event event = eventRepository.getOne(eventId);
+        event.setAssignedSuperFrogEmail(currentUser.getEmail());
 
-    @RequestMapping("/frogeventmanagement/reject/{eventId}")
-    public String rejectEvent(@PathVariable("eventId") Long eventId) {
-        Event eventToReject = eventRepository.getOne(eventId);
-        eventToReject.setStatus(EventStatus.DENIED);
-        eventRepository.save(eventToReject);
+        eventRepository.save(event);
 
         return "redirect:/frogeventmanagement";
     }
@@ -73,33 +75,6 @@ public class FrogEventManagementController {
         Event eventToFinish = eventRepository.getOne(eventId);
         eventToFinish.setStatus(EventStatus.FINISHED);
         eventRepository.save(eventToFinish);
-
-        return "redirect:/frogeventmanagement";
-    }
-
-    @PostMapping("/frogeventmanagement/editEvent")
-    public String editEvent(@ModelAttribute("editEvent") Event event) {
-        Event updatedEvent = eventRepository.getOne(event.getId());
-        updatedEvent.setTitle(event.getTitle());
-        updatedEvent.setDescription(event.getDescription());
-        updatedEvent.setDate(event.getDate());
-        updatedEvent.setStartTime(event.getStartTime());
-        updatedEvent.setEndTime(event.getEndTime());
-        updatedEvent.setRequestingUserEmail(event.getRequestingUserEmail());
-
-        eventRepository.save(updatedEvent);
-
-        return "redirect:/frogeventmanagement";
-    }
-
-    @PostMapping("/frogeventmanagement/assign/{eventId}/{superfrogId}")
-    public String assignSuperFrogToEvent(@PathVariable("eventId") Long eventId, @PathVariable("superfrogId") Long superfrogId) {
-        Event event = eventRepository.getOne(eventId);
-        User superfrog = userRepository.getOne(superfrogId);
-
-        event.setAssignedSuperFrogEmail(superfrog.getEmail());
-
-        eventRepository.save(event);
 
         return "redirect:/frogeventmanagement";
     }

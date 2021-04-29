@@ -34,7 +34,6 @@ public class UserProfileController {
 
         model.addAttribute("user", currentUser);
         model.addAttribute("editUser", new User());
-        System.out.println("here");
         return "updateuser";
     }
 
@@ -55,7 +54,6 @@ public class UserProfileController {
 
         model.addAttribute("user", currentUser);
         model.addAttribute("editUser", new User());
-        System.out.println("here1");
         return "changepwd";
     }
 
@@ -63,7 +61,6 @@ public class UserProfileController {
     public String ChangePwds(@PathVariable("email") String email, @ModelAttribute("editUser") User user) {
         User oldUser = userRepository.findByEmail(email);
         String encodedPassword = passwordEncoder.encode(user.getPassword());
-        System.out.println(encodedPassword);
         if(user.getPassword()!= "") oldUser.setPassword(encodedPassword);
         userRepository.save(oldUser);
         return "update_success";

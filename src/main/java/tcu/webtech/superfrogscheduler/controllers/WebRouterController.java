@@ -18,14 +18,6 @@ public class WebRouterController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/dashboard")
-    public String dashboard(Model model, Authentication authentication) {
-        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
-
-        model.addAttribute("user", currentUser);
-        return "dashboard";
-    }
-
     @GetMapping("/access_denied")
     public String accessDenied(){
         return "accessDenied";

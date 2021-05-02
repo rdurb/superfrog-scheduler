@@ -2,13 +2,11 @@ package tcu.webtech.superfrogscheduler.controllers;
 
 import org.apache.poi.ss.formula.functions.Even;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import tcu.webtech.superfrogscheduler.models.Event;
 import tcu.webtech.superfrogscheduler.models.EventStatus;
 import tcu.webtech.superfrogscheduler.models.User;
@@ -79,7 +77,7 @@ public class EventManagementController {
     }
 
     @PostMapping("/eventmanagement/editEvent")
-    public String editEvent(@ModelAttribute("editEvent") Event event) {
+    public String editEvent(@ModelAttribute("editEvent") Event event, @RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer) {
         Event updatedEvent = eventRepository.getOne(event.getId());
         updatedEvent.setTitle(event.getTitle());
         updatedEvent.setDescription(event.getDescription());
@@ -90,7 +88,7 @@ public class EventManagementController {
 
         eventRepository.save(updatedEvent);
 
-        return "redirect:/eventmanagement";
+        return "redirect:" + referrer;
     }
 
     @PostMapping("/eventmanagement/assign/{eventId}/{superfrogId}")

@@ -18,14 +18,6 @@ public class WebRouterController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/")
-    public String home(Model model, Authentication authentication) {
-        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
-
-        model.addAttribute("user", currentUser);
-        return "index";
-    }
-
     @RequestMapping("/dashboard")
     public String dashboard(Model model, Authentication authentication) {
         UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();

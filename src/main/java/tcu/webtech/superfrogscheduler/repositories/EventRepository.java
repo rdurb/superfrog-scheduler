@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
     public List<Event> findAllByStatus(EventStatus status);
+    public List<Event> findAllByRequestingUserEmail(String email);
 }

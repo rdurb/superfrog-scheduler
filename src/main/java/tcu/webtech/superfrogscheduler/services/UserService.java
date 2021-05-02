@@ -19,13 +19,4 @@ public class UserService {
         user.setPhoneNumber(phoneNumber);
         userRepository.save(user);
     }
-
-    public void deactivate(Long userID) {
-
-    }
-
-    public void activate(Long userID) {
-
-    }
-
 }

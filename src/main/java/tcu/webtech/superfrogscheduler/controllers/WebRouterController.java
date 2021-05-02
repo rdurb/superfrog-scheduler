@@ -26,14 +26,6 @@ public class WebRouterController {
         return "dashboard";
     }
 
-    @RequestMapping("/tcuevent")
-    public String tcuevent(Model model, Authentication authentication) {
-        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
-
-        model.addAttribute("user", currentUser);
-        return "tcuevent";
-    }
-
     @GetMapping("/access_denied")
     public String accessDenied(){
         return "accessDenied";

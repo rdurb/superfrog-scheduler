@@ -64,8 +64,6 @@
                 <li sec:authorize="hasAuthority('SPIRITDIRECTOR')" class="nav-item"><a class="nav-link" th:href="@{/spiritdirectortable}"><i class="fas fa-table"></i><span>Manage Users</span></a></li>
                 <li sec:authorize="hasAuthority('SPIRITDIRECTOR')" class="nav-item"><a class="nav-link" th:href="@{/eventmanagement}"><i class="fas fa-table"></i><span>Manage Events</span></a></li>
                 <li sec:authorize="hasAuthority('SUPERFROG')" class="nav-item"><a class="nav-link" th:href="@{/frogeventmanagement}"><i class="fas fa-table"></i><span>Manage Events</span></a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{tcuevent}"><i class="fas fa-user-circle"></i><span>Tcu Event</span></a></li>
-                <li class="nav-item"></li>
             </ul>
             <div class="text-center d-none d-md-inline">
                 <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
